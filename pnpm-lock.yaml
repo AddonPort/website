@@ -10,7 +10,7 @@ importers:
     dependencies:
       '@addonport/sdk':
         specifier: github:AddonPort/sdk#main
-        version: https://codeload.github.com/AddonPort/sdk/tar.gz/2d8f0180b122f912b442a51334dd5ea5b6af64e7(react@19.2.8)
+        version: https://codeload.github.com/AddonPort/sdk/tar.gz/cbef58a1ab3b6ce07546a690177c1087a8371ee2(react@19.2.8)
       lucide-react:
         specifier: ^1.32.0
         version: 1.33.0(react@19.2.8)
@@ -51,8 +51,8 @@ importers:
 
 packages:
 
-  '@addonport/sdk@https://codeload.github.com/AddonPort/sdk/tar.gz/2d8f0180b122f912b442a51334dd5ea5b6af64e7':
-    resolution: {tarball: https://codeload.github.com/AddonPort/sdk/tar.gz/2d8f0180b122f912b442a51334dd5ea5b6af64e7}
+  '@addonport/sdk@https://codeload.github.com/AddonPort/sdk/tar.gz/cbef58a1ab3b6ce07546a690177c1087a8371ee2':
+    resolution: {tarball: https://codeload.github.com/AddonPort/sdk/tar.gz/cbef58a1ab3b6ce07546a690177c1087a8371ee2}
     version: 0.1.0
     engines: {node: '>=22.12'}
     peerDependencies:
@@ -1389,7 +1389,7 @@ packages:
 
 snapshots:
 
-  '@addonport/sdk@https://codeload.github.com/AddonPort/sdk/tar.gz/2d8f0180b122f912b442a51334dd5ea5b6af64e7(react@19.2.8)':
+  '@addonport/sdk@https://codeload.github.com/AddonPort/sdk/tar.gz/cbef58a1ab3b6ce07546a690177c1087a8371ee2(react@19.2.8)':
     dependencies:
       lucide: 1.33.0
     optionalDependencies:
