@@ -324,8 +324,8 @@ type Framework = "elements" | "javascript" | "react" | "vue";
 
 const INTEGRATION_SNIPPETS: Record<Framework, string> = {
   elements: [
-    "# Public npm release pending",
-    "npm install @addonport/sdk",
+    "# GitHub beta; public npm release pending",
+    "npm install github:AddonPort/sdk#v0.1.0-beta.1",
     "",
     'import "@addonport/sdk/elements";',
     "",
@@ -335,8 +335,8 @@ const INTEGRATION_SNIPPETS: Record<Framework, string> = {
     "></addonport-install-button>",
   ].join("\n"),
   javascript: [
-    "# Public npm release pending",
-    "npm install @addonport/sdk",
+    "# GitHub beta; public npm release pending",
+    "npm install github:AddonPort/sdk#v0.1.0-beta.1",
     "",
     'import { AddonPortClient } from "@addonport/sdk";',
     "",
@@ -351,8 +351,8 @@ const INTEGRATION_SNIPPETS: Record<Framework, string> = {
     "});",
   ].join("\n"),
   react: [
-    "# Public npm release pending",
-    "npm install @addonport/sdk",
+    "# GitHub beta; public npm release pending",
+    "npm install github:AddonPort/sdk#v0.1.0-beta.1",
     "",
     'import { AddonPortInstallButton } from "@addonport/sdk/react";',
     "",
@@ -363,8 +363,8 @@ const INTEGRATION_SNIPPETS: Record<Framework, string> = {
     "/>",
   ].join("\n"),
   vue: [
-    "# Public npm release pending",
-    "npm install @addonport/sdk",
+    "# GitHub beta; public npm release pending",
+    "npm install github:AddonPort/sdk#v0.1.0-beta.1",
     "",
     "<script setup>",
     'import { AddonPortInstallButton } from "@addonport/sdk/vue";',
@@ -419,8 +419,8 @@ function DeveloperPage() {
           <div className="package-notice">
             <CircleAlert aria-hidden="true" />
             <div>
-              <strong>Public npm release pending.</strong>
-              <span>The examples document the prepared 0.1 API; the package is not live yet.</span>
+              <strong>GitHub beta available.</strong>
+              <span>The npm package is pending; examples install the tagged 0.1 beta.</span>
             </div>
           </div>
           <div className="framework-tabs" role="tablist" aria-label="Integration framework">
