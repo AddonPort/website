@@ -1,4 +1,5 @@
-import { AddonPortClient } from "@addonport/sdk";
+"use client";
+
 import {
   ArrowRight,
   Cable,
@@ -8,8 +9,6 @@ import {
   Download,
   ExternalLink,
   FileCheck2,
-  LoaderCircle,
-  MonitorDown,
   PackageCheck,
   Power,
   Puzzle,
@@ -19,75 +18,20 @@ import {
   Terminal,
   Wrench,
 } from "lucide-react";
-import { useMemo, useState } from "react";
-import { Link, NavLink, Route, Routes } from "react-router-dom";
+import Image from "next/image";
+import type { ReactNode } from "react";
+import { useState } from "react";
 
-const API_BASE_URL =
-  import.meta.env.VITE_ADDONPORT_API_URL ||
-  (import.meta.env.DEV ? "http://localhost:8787" : "https://connect.addonport.dev");
 const RELEASE_URL = "https://github.com/AddonPort/faceit/releases/tag/dev-latest";
-const REPOSITORY_URL = "https://github.com/AddonPort";
 const ISSUE_URL = "https://github.com/AddonPort/faceit/issues/new?template=extension.yml";
+const INTEGRATION_URL = "https://github.com/AddonPort/faceit/blob/dev/docs/INTEGRATION.md";
 
-export function App() {
-  return (
-    <div className="app-shell">
-      <Header />
-      <Routes>
-        <Route path="/" element={<InstallPage />} />
-        <Route path="/install" element={<InstallPage />} />
-        <Route path="/developers" element={<DeveloperPage />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-      <Footer />
-    </div>
-  );
-}
-
-function Header() {
-  return (
-    <header className="topbar">
-      <Link className="brand" to="/" aria-label="AddonPort home">
-        <span className="brand-mark">
-          <Cable aria-hidden="true" />
-        </span>
-        <span>AddonPort</span>
-        <span className="brand-context">for FACEIT</span>
-      </Link>
-      <nav className="main-nav" aria-label="Main navigation">
-        <NavLink to="/" end>
-          Install
-        </NavLink>
-        <NavLink to="/developers">Developers</NavLink>
-      </nav>
-      <a
-        className="icon-button"
-        href={REPOSITORY_URL}
-        target="_blank"
-        rel="noreferrer"
-        aria-label="Open source on GitHub"
-        title="GitHub"
-      >
-        <GitHubMark />
-      </a>
-    </header>
-  );
-}
-
-function GitHubMark() {
-  return (
-    <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 .7a11.5 11.5 0 0 0-3.6 22.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.4-4-1.4-.5-1.4-1.3-1.8-1.3-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.4 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0C16.9 4.8 18 5 18 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.9 1.2 3.1 0 4.4-2.8 5.4-5.5 5.7.4.4.8 1.1.8 2.1v3.3c0 .3.2.7.8.6A11.5 11.5 0 0 0 12 .7Z" />
-    </svg>
-  );
-}
-
-function InstallPage() {
+export function InstallPage() {
   return (
     <main>
       <section className="install-hero page">
         <div className="install-copy">
-          <p className="eyebrow">Windows adapter</p>
+          <p className="eyebrow">Windows public beta</p>
           <h1>AddonPort for FACEIT</h1>
           <p className="lede">
             Install and manage compatible Chrome extensions inside the FACEIT desktop client.
@@ -104,7 +48,7 @@ function InstallPage() {
             </a>
             <a className="button secondary-button" href="addonport://open">
               <Power aria-hidden="true" />
-              Open AddonPort
+              Open in FACEIT
             </a>
           </div>
           <ul className="requirements" aria-label="System requirements">
@@ -119,11 +63,13 @@ function InstallPage() {
         </div>
 
         <figure className="product-preview">
-          <img
+          <Image
             src="/images/addonport-manager.png"
             alt="AddonPort extension manager open in the FACEIT desktop client"
             width="1280"
             height="800"
+            priority
+            unoptimized
           />
           <figcaption>Manage extensions without leaving FACEIT.</figcaption>
         </figure>
@@ -134,9 +80,7 @@ function InstallPage() {
           <header className="section-heading">
             <p className="eyebrow">Install</p>
             <h2>Three steps, then launch FACEIT normally.</h2>
-            <p>
-              The installer patches your existing FACEIT client. It does not install a second copy.
-            </p>
+            <p>Setup patches the existing FACEIT client. It does not install a second copy.</p>
           </header>
           <ol className="step-list">
             <li>
@@ -151,7 +95,7 @@ function InstallPage() {
               <div>
                 <h3>Run Setup</h3>
                 <p>
-                  Download <code>AddonPort-for-FACEIT-Setup-*-x64.exe</code> and select{" "}
+                  Download <code>FACEIT-Extension-Loader-Setup-*-x64.exe</code> and select{" "}
                   <strong>Install</strong>.
                 </p>
               </div>
@@ -178,13 +122,19 @@ function InstallPage() {
 
       <section className="page check-layout">
         <div className="check-copy">
-          <p className="eyebrow">Connection check</p>
-          <h2>Already installed?</h2>
+          <p className="eyebrow">Already installed</p>
+          <h2>Open AddonPort from FACEIT.</h2>
           <p>
-            Check the complete handoff from this page. FACEIT opens, AddonPort claims the session,
-            and the result returns here.
+            Start FACEIT and select AddonPort at the bottom of the right sidebar. The protocol
+            shortcut below opens the same interface when the adapter is installed.
           </p>
-          <ClientCheck />
+          <div className="direct-open">
+            <a className="button primary-button" href="addonport://open">
+              <Cable aria-hidden="true" />
+              Open AddonPort
+            </a>
+            <span>Your browser may ask before opening FACEIT.</span>
+          </div>
         </div>
         <ul className="operation-list" aria-label="Setup maintenance options">
           <OperationRow
@@ -200,7 +150,7 @@ function InstallPage() {
           <OperationRow
             icon={<RotateCcw aria-hidden="true" />}
             title="Restore FACEIT"
-            description="Restores the verified backup and removes AddonPort protocol registration."
+            description="Restores the verified backup and removes the protocol registration."
           />
         </ul>
       </section>
@@ -252,7 +202,7 @@ function OperationRow({
   title,
   description,
 }: {
-  icon: React.ReactNode;
+  icon: ReactNode;
   title: string;
   description: string;
 }) {
@@ -267,130 +217,65 @@ function OperationRow({
   );
 }
 
-function ClientCheck() {
-  const [status, setStatus] = useState<"idle" | "waiting" | "found" | "unavailable">("idle");
-  const client = useMemo(
-    () =>
-      new AddonPortClient({
-        apiBaseUrl: API_BASE_URL,
-        client: { name: "addonport-site", version: "0.1.0" },
-      }),
-    [],
-  );
+type Framework = "html" | "javascript" | "react" | "vue";
 
-  const check = async () => {
-    setStatus("waiting");
-    try {
-      const session = await client.prepare({ action: "open" });
-      session.open();
-      const result = await session.wait({ timeoutMs: 12_000 });
-      setStatus(result.state === "completed" ? "found" : "unavailable");
-    } catch {
-      setStatus("unavailable");
-    }
-  };
-
-  return (
-    <div className={`client-check ${status}`}>
-      <button type="button" onClick={() => void check()} disabled={status === "waiting"}>
-        {status === "waiting" ? <LoaderCircle className="spin" aria-hidden="true" /> : null}
-        {status === "found" ? <ShieldCheck aria-hidden="true" /> : null}
-        {status === "unavailable" ? <CircleAlert aria-hidden="true" /> : null}
-        {status === "idle" ? <Cable aria-hidden="true" /> : null}
-        {status === "waiting"
-          ? "Waiting for FACEIT"
-          : status === "found"
-            ? "AddonPort opened"
-            : status === "unavailable"
-              ? "Check again"
-              : "Check installation"}
-      </button>
-      <p aria-live="polite">
-        {status === "idle" ? "This check opens FACEIT." : null}
-        {status === "waiting" ? "Approve the browser prompt if it appears." : null}
-        {status === "found" ? "The native adapter responded successfully." : null}
-        {status === "unavailable" ? "No adapter response was received within 12 seconds." : null}
-      </p>
-      {status === "unavailable" ? (
-        <a href={RELEASE_URL} target="_blank" rel="noreferrer">
-          Download Setup <ExternalLink aria-hidden="true" />
-        </a>
-      ) : null}
-    </div>
-  );
-}
-
-type Framework = "elements" | "javascript" | "react" | "vue";
-
+const EXTENSION_ID = "abcdefghijklmnopabcdefghijklmnop";
 const INTEGRATION_SNIPPETS: Record<Framework, string> = {
-  elements: [
-    "# GitHub beta; public npm release pending",
-    "npm install github:AddonPort/sdk#v0.1.0-beta.1",
-    "",
-    'import "@addonport/sdk/elements";',
-    "",
-    "<addonport-install-button",
-    '  target="abcdefghijklmnopabcdefghijklmnop"',
-    '  api-base-url="https://connect.addonport.dev"',
-    "></addonport-install-button>",
+  html: [
+    `<a href="addonport://install/${EXTENSION_ID}">`,
+    "  Install with AddonPort for FACEIT",
+    "</a>",
+    `<a href="${RELEASE_URL}">Didn't open? Install AddonPort</a>`,
   ].join("\n"),
   javascript: [
-    "# GitHub beta; public npm release pending",
-    "npm install github:AddonPort/sdk#v0.1.0-beta.1",
+    `const extensionId = "${EXTENSION_ID}";`,
+    'const button = document.querySelector("#install-for-faceit");',
     "",
-    'import { AddonPortClient } from "@addonport/sdk";',
-    "",
-    "const client = new AddonPortClient({",
-    '  apiBaseUrl: "https://connect.addonport.dev",',
-    '  client: { name: "extension-site", version: "1.0.0" },',
-    "});",
-    "",
-    "const result = await client.run({",
-    '  action: "install",',
-    '  target: "abcdefghijklmnopabcdefghijklmnop",',
+    'button.addEventListener("click", () => {',
+    '  window.location.href = "addonport://install/" + extensionId;',
     "});",
   ].join("\n"),
   react: [
-    "# GitHub beta; public npm release pending",
-    "npm install github:AddonPort/sdk#v0.1.0-beta.1",
-    "",
-    'import { AddonPortInstallButton } from "@addonport/sdk/react";',
-    "",
-    "<AddonPortInstallButton",
-    '  target="abcdefghijklmnopabcdefghijklmnop"',
-    "  onStatus={(session) => setStatus(session.state)}",
-    "  onComplete={() => setInstalled(true)}",
-    "/>",
+    "function InstallForFaceit({ extensionId }) {",
+    "  return (",
+    "    <button",
+    '      type="button"',
+    "      onClick={() => {",
+    '        window.location.href = "addonport://install/" + extensionId;',
+    "      }}",
+    "    >",
+    "      Install with AddonPort for FACEIT",
+    "    </button>",
+    "  );",
+    "}",
   ].join("\n"),
   vue: [
-    "# GitHub beta; public npm release pending",
-    "npm install github:AddonPort/sdk#v0.1.0-beta.1",
-    "",
     "<script setup>",
-    'import { AddonPortInstallButton } from "@addonport/sdk/vue";',
+    `const extensionId = "${EXTENSION_ID}";`,
+    "const install = () => {",
+    '  window.location.href = "addonport://install/" + extensionId;',
+    "};",
     "</script>",
     "",
     "<template>",
-    "  <AddonPortInstallButton",
-    '    target="abcdefghijklmnopabcdefghijklmnop"',
-    '    @status="session => status = session.state"',
-    '    @complete="installed = true"',
-    "  />",
+    '  <button type="button" @click="install">',
+    "    Install with AddonPort for FACEIT",
+    "  </button>",
     "</template>",
   ].join("\n"),
 };
 
-function DeveloperPage() {
-  const [framework, setFramework] = useState<Framework>("elements");
+export function DeveloperPage() {
+  const [framework, setFramework] = useState<Framework>("html");
   return (
     <main className="developer-page">
       <section className="page developer-intro">
         <div>
-          <p className="eyebrow">For extension developers</p>
-          <h1>Add one native install action.</h1>
+          <p className="eyebrow">For extension authors</p>
+          <h1>Add an optional one-click install link.</h1>
           <p className="lede">
-            AddonPort connects an extension website to the FACEIT adapter with explicit user
-            confirmation and a result channel back to the page.
+            AddonPort for FACEIT accepts valid Chrome Web Store extension IDs. A catalog listing or
+            SDK integration is not required.
           </p>
         </div>
         <div className="developer-principles">
@@ -398,10 +283,10 @@ function DeveloperPage() {
             <ShieldCheck aria-hidden="true" /> User-confirmed install
           </span>
           <span>
-            <Power aria-hidden="true" /> No resident local service
+            <PackageCheck aria-hidden="true" /> No catalog approval required
           </span>
           <span>
-            <PackageCheck aria-hidden="true" /> Chrome Web Store IDs
+            <Puzzle aria-hidden="true" /> Chrome Web Store IDs
           </span>
         </div>
       </section>
@@ -409,22 +294,24 @@ function DeveloperPage() {
       <section className="section-band">
         <div className="page sdk-layout">
           <header className="section-heading sdk-heading">
-            <p className="eyebrow">Website SDK</p>
-            <h2>Choose the smallest integration that fits.</h2>
+            <p className="eyebrow">Website integration</p>
+            <h2>Use the native link directly.</h2>
             <p>
-              Use the drop-in button or bind session states to your own interface. Replace the
-              example target with the 32-character Chrome extension ID.
+              Launch it only after a user action and keep a normal Setup link nearby. Replace the
+              example target with your 32-character Chrome extension ID.
             </p>
           </header>
-          <div className="package-notice">
-            <CircleAlert aria-hidden="true" />
+          <div className="package-notice positive-notice">
+            <ShieldCheck aria-hidden="true" />
             <div>
-              <strong>GitHub beta available.</strong>
-              <span>The npm package is pending; examples install the tagged 0.1 beta.</span>
+              <strong>No SDK is required for the current FACEIT integration.</strong>
+              <span>
+                The generic AddonPort SDK and hosted handoff service remain in development.
+              </span>
             </div>
           </div>
           <div className="framework-tabs" role="tablist" aria-label="Integration framework">
-            {(["elements", "javascript", "react", "vue"] as const).map((item) => (
+            {(["html", "javascript", "react", "vue"] as const).map((item) => (
               <button
                 type="button"
                 role="tab"
@@ -433,8 +320,8 @@ function DeveloperPage() {
                 onClick={() => setFramework(item)}
                 key={item}
               >
-                {item === "elements"
-                  ? "Web Component"
+                {item === "html"
+                  ? "HTML"
                   : item === "javascript"
                     ? "JavaScript"
                     : item.charAt(0).toUpperCase() + item.slice(1)}
@@ -442,11 +329,16 @@ function DeveloperPage() {
             ))}
           </div>
           <CodeBlock label={`${framework} integration`} code={INTEGRATION_SNIPPETS[framework]} />
-          <ul className="package-list" aria-label="AddonPort packages">
-            <PackageRow name="@addonport/sdk" description="Framework-neutral session client" />
-            <PackageRow name="@addonport/sdk/elements" description="Drop-in install button" />
-            <PackageRow name="@addonport/sdk/react" description="Typed React wrapper" />
-            <PackageRow name="@addonport/sdk/vue" description="Vue 3 component" />
+          <ul className="package-list" aria-label="Supported FACEIT actions">
+            <PackageRow name="addonport://open" description="Open the in-client manager" />
+            <PackageRow
+              name="addonport://install/<id>"
+              description="Review and install an extension"
+            />
+            <PackageRow
+              name="addonport://launch/<id>"
+              description="Open an installed extension action"
+            />
           </ul>
         </div>
       </section>
@@ -454,10 +346,10 @@ function DeveloperPage() {
       <section className="page developer-reference">
         <header className="section-heading">
           <p className="eyebrow">Protocol</p>
-          <h2>Static links for simple handoffs.</h2>
+          <h2>Keep the fallback visible.</h2>
           <p>
-            Use static links only when the caller does not need a result. Launch them from a user
-            action and keep a normal Setup link nearby.
+            Browsers cannot reliably prove that a native protocol handler is installed. Do not
+            launch links automatically during page load or claim that a timeout detected the app.
           </p>
         </header>
         <div className="protocol-grid">
@@ -481,12 +373,15 @@ function DeveloperPage() {
               description="Opens the installed extension action in the FACEIT client."
             />
             <ReferenceRow
-              icon={<Cable aria-hidden="true" />}
-              title="connect"
-              description="Reserved for short-lived SDK sessions; do not construct it manually."
+              icon={<Power aria-hidden="true" />}
+              title="open"
+              description="Opens the AddonPort manager without selecting an extension."
             />
           </div>
         </div>
+        <a className="text-link protocol-doc-link" href={INTEGRATION_URL}>
+          Read the complete integration contract <ExternalLink aria-hidden="true" />
+        </a>
       </section>
 
       <section className="section-band">
@@ -495,8 +390,8 @@ function DeveloperPage() {
             <p className="eyebrow">Native Windows apps</p>
             <h2>Read the current-user registry key.</h2>
             <p>
-              Native apps can detect the adapter without launching FACEIT. Check ProtocolVersion
-              before relying on connect sessions.
+              Native apps can check the installed loader version without launching FACEIT. Compare
+              ProtocolVersion before relying on newer link actions.
             </p>
           </div>
           <CodeBlock
@@ -512,8 +407,8 @@ function DeveloperPage() {
           <div className="trust-note">
             <CircleAlert aria-hidden="true" />
             <p>
-              A completed session is a user-experience signal, not device attestation. Do not use it
-              for authentication, authorization, or anti-abuse decisions.
+              A browser timeout is only a usability hint. It is not installation detection, device
+              attestation, authentication, or an anti-abuse signal.
             </p>
           </div>
         </div>
@@ -536,7 +431,7 @@ function ReferenceRow({
   title,
   description,
 }: {
-  icon: React.ReactNode;
+  icon: ReactNode;
   title: string;
   description: string;
 }) {
@@ -573,34 +468,5 @@ function CodeBlock({ label, code }: { label: string; code: string }) {
         <code>{code}</code>
       </pre>
     </div>
-  );
-}
-
-function NotFound() {
-  return (
-    <main className="page not-found">
-      <MonitorDown aria-hidden="true" />
-      <h1>Page not found</h1>
-      <Link to="/">
-        Open installation guide <ArrowRight aria-hidden="true" />
-      </Link>
-    </main>
-  );
-}
-
-function Footer() {
-  return (
-    <footer className="footer">
-      <div>
-        <span className="footer-brand">
-          <Cable aria-hidden="true" /> AddonPort
-        </span>
-        <span>Protocol and SDK: MIT. FACEIT adapter: GPL-3.0.</span>
-      </div>
-      <span>Unofficial and not affiliated with or endorsed by FACEIT.</span>
-      <a href={REPOSITORY_URL} target="_blank" rel="noreferrer">
-        Source <ExternalLink aria-hidden="true" />
-      </a>
-    </footer>
   );
 }

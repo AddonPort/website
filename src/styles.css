@@ -446,7 +446,7 @@ code {
   padding-top: 84px;
 }
 
-.client-check {
+.direct-open {
   align-items: flex-start;
   display: flex;
   flex-wrap: wrap;
@@ -454,66 +454,11 @@ code {
   margin-top: 26px;
 }
 
-.client-check button {
-  align-items: center;
-  background: var(--text);
-  border: 1px solid var(--text);
-  border-radius: 6px;
-  color: #111112;
-  cursor: pointer;
-  display: inline-flex;
-  font-size: 13px;
-  font-weight: 720;
-  gap: 8px;
-  height: 40px;
-  padding: 0 14px;
-}
-
-.client-check button:hover {
-  background: #ffffff;
-}
-
-.client-check button:disabled {
-  cursor: wait;
-}
-
-.client-check button svg {
-  height: 16px;
-  width: 16px;
-}
-
-.client-check.found button {
-  background: var(--positive);
-  border-color: var(--positive);
-}
-
-.client-check.unavailable button {
-  background: transparent;
-  border-color: var(--warning);
-  color: var(--warning);
-}
-
-.client-check p {
+.direct-open span {
   color: var(--muted);
   flex-basis: 100%;
   font-size: 12px;
   margin: 2px 0 0;
-}
-
-.client-check a {
-  align-items: center;
-  color: var(--text);
-  display: inline-flex;
-  font-size: 12px;
-  font-weight: 650;
-  gap: 5px;
-  margin-top: 2px;
-  text-underline-offset: 3px;
-}
-
-.client-check a svg {
-  height: 13px;
-  width: 13px;
 }
 
 .operation-list {
@@ -676,6 +621,11 @@ code {
   margin-top: 2px;
 }
 
+.package-notice.positive-notice {
+  border-left-color: var(--positive);
+  color: var(--positive);
+}
+
 .framework-tabs {
   border-bottom: 1px solid var(--line);
   display: flex;
@@ -804,6 +754,11 @@ code {
 
 .developer-reference > .section-heading {
   max-width: 700px;
+}
+
+.protocol-doc-link {
+  grid-column: auto;
+  margin-top: 28px;
 }
 
 .protocol-grid {
