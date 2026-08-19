@@ -364,9 +364,9 @@ export function DeveloperPage() {
           <div className="package-notice positive-notice">
             <ShieldCheck aria-hidden="true" />
             <div>
-              <strong>No SDK is required for the current FACEIT integration.</strong>
+              <strong>No SDK is required for direct FACEIT links.</strong>
               <span>
-                The generic AddonPort SDK and hosted handoff service remain in development.
+                The optional SDK and hosted result channel are available as a GitHub beta.
               </span>
             </div>
           </div>

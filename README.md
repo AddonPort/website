@@ -2,9 +2,9 @@
 
 Installation and developer integration documentation for AddonPort.
 
-> [!NOTE]
-> The current public integration is the direct `addonport://` contract. The generic SDK and
-> hosted result-channel flow remain in development.
+The public site is available at [addonport.dev](https://addonport.dev). Direct `addonport://` links
+are the simplest FACEIT integration. The optional SDK and hosted result channel are available as a
+GitHub beta.
 
 ## Development
 
