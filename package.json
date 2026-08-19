@@ -1,0 +1,55 @@
+{
+  "name": "@addonport/website",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AddonPort installation guide and developer integration website.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AddonPort/website.git"
+  },
+  "homepage": "https://addonport.dev",
+  "bugs": {
+    "url": "https://github.com/AddonPort/website/issues"
+  },
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json && vite build",
+    "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm build",
+    "deploy": "pnpm build && wrangler deploy",
+    "dev": "vite",
+    "format": "biome format --write .",
+    "lint": "biome check .",
+    "preview": "vite preview",
+    "test": "vitest run --passWithNoTests",
+    "typecheck": "tsc -p tsconfig.json --pretty false"
+  },
+  "dependencies": {
+    "@addonport/sdk": "github:AddonPort/sdk#main",
+    "lucide-react": "^1.32.0",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "react-router-dom": "^7.11.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.9",
+    "@types/react": "^19.2.4",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.2",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.0",
+    "vitest": "^3.2.7",
+    "wrangler": "^4.124.0"
+  },
+  "packageManager": "pnpm@10.33.2",
+  "engines": {
+    "node": ">=22.12"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@addonport/sdk",
+      "esbuild",
+      "workerd"
+    ]
+  }
+}
