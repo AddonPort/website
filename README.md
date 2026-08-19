@@ -2,6 +2,10 @@
 
 Installation and developer integration documentation for AddonPort.
 
+> [!NOTE]
+> The site is not publicly deployed. The current user guide and releases are available in
+> [AddonPort for FACEIT](https://github.com/AddonPort/faceit).
+
 ## Development
 
 ~~~bash
@@ -26,4 +30,4 @@ Cloudflare deployment requires:
 - <code>CLOUDFLARE_API_TOKEN</code> secret
 - <code>ADDONPORT_CONNECT_URL</code> variable
 
-The production hostname is [addonport.dev](https://addonport.dev).
+The intended production hostname is `addonport.dev` once DNS and deployment are configured.
