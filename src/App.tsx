@@ -14,11 +14,12 @@ import {
   Puzzle,
   RefreshCcw,
   RotateCcw,
+  Settings2,
   ShieldCheck,
   Terminal,
   Wrench,
+  X,
 } from "lucide-react";
-import Image from "next/image";
 import type { ReactNode } from "react";
 import { useState } from "react";
 
@@ -62,16 +63,48 @@ export function InstallPage() {
           </p>
         </div>
 
-        <figure className="product-preview">
-          <Image
-            src="/images/addonport-manager.png"
-            alt="AddonPort extension manager open in the FACEIT desktop client"
-            width="1280"
-            height="800"
-            priority
-            unoptimized
-          />
-          <figcaption>Manage extensions without leaving FACEIT.</figcaption>
+        <figure className="product-preview" aria-label="AddonPort extension manager preview">
+          <div className="preview-stage">
+            <div className="preview-workspace" aria-hidden="true">
+              <span>FACEIT</span>
+              <strong>Matchroom</strong>
+            </div>
+            <div className="preview-rail" aria-hidden="true">
+              <span>F</span>
+              <span>P</span>
+              <span>R</span>
+              <span className="active">AP</span>
+            </div>
+            <div className="preview-manager">
+              <header className="preview-manager-header">
+                <span className="preview-manager-mark">AP</span>
+                <div>
+                  <strong>AddonPort</strong>
+                  <small>Public beta · 3 extensions</small>
+                </div>
+                <span className="preview-manager-action" aria-hidden="true">
+                  <Settings2 />
+                </span>
+                <span className="preview-manager-action" aria-hidden="true">
+                  <X />
+                </span>
+              </header>
+              <div className="preview-tabs">
+                <span className="active">Extensions</span>
+                <span>Add</span>
+              </div>
+              <div className="preview-list-heading">
+                <strong>Extensions</strong>
+                <span>3 installed</span>
+              </div>
+              <div className="preview-extension-list">
+                <PreviewExtension name="PeekStats" version="2.1.6" initial="P" enabled />
+                <PreviewExtension name="FACEIT Forecast" version="2.1.3" initial="F" enabled />
+                <PreviewExtension name="Repeek" version="5.6.10" initial="R" />
+              </div>
+            </div>
+          </div>
+          <figcaption>Extension controls stay inside the FACEIT sidebar.</figcaption>
         </figure>
       </section>
 
@@ -194,6 +227,33 @@ export function InstallPage() {
         </div>
       </section>
     </main>
+  );
+}
+
+function PreviewExtension({
+  name,
+  version,
+  initial,
+  enabled = false,
+}: {
+  name: string;
+  version: string;
+  initial: string;
+  enabled?: boolean;
+}) {
+  return (
+    <div className="preview-extension-row">
+      <span className={`preview-extension-icon${enabled ? " enabled" : ""}`}>{initial}</span>
+      <div>
+        <strong>{name}</strong>
+        <small>
+          <i className={enabled ? "active" : ""} /> {enabled ? "Active" : "Disabled"} · v{version}
+        </small>
+      </div>
+      <span className={`preview-switch${enabled ? " on" : ""}`} aria-hidden="true">
+        <i />
+      </span>
+    </div>
   );
 }
 
