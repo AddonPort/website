@@ -1356,12 +1356,41 @@ code {
     width: 100%;
   }
 
+  .install-hero {
+    gap: 24px;
+    padding-bottom: 20px;
+    padding-top: 32px;
+  }
+
+  .section-layout {
+    padding-top: 40px;
+  }
+
+  .hero-actions {
+    margin-top: 24px;
+  }
+
+  .requirements {
+    display: grid;
+    gap: 8px 12px;
+    grid-template-columns: 1fr 1fr;
+    margin-top: 18px;
+  }
+
+  .requirements li:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .beta-note {
+    margin-top: 12px;
+  }
+
   .product-preview figcaption {
     display: none;
   }
 
   .preview-stage {
-    min-height: 440px;
+    min-height: 260px;
   }
 
   .preview-workspace {
@@ -1369,22 +1398,63 @@ code {
   }
 
   .preview-manager {
-    bottom: 12px;
-    left: 12px;
-    right: 54px;
+    bottom: 6px;
+    left: 10px;
+    right: 46px;
     width: auto;
+  }
+
+  .preview-rail {
+    padding: 10px 7px;
+    width: 46px;
+  }
+
+  .preview-rail span {
+    height: 32px;
+    width: 32px;
+  }
+
+  .preview-manager-header {
+    gap: 7px;
+    grid-template-columns: 28px 1fr 24px 24px;
+    min-height: 46px;
+    padding: 6px 8px;
+  }
+
+  .preview-manager-mark {
+    height: 28px;
+    width: 28px;
+  }
+
+  .preview-manager-action {
+    height: 24px;
+    width: 24px;
+  }
+
+  .preview-tabs,
+  .preview-tabs span {
+    height: 32px;
+  }
+
+  .preview-tabs span {
+    padding-top: 10px;
+  }
+
+  .preview-list-heading {
+    min-height: 34px;
   }
 
   .preview-extension-row {
     gap: 9px;
-    grid-template-columns: 34px 1fr 30px;
+    grid-template-columns: 30px 1fr 30px;
+    min-height: 46px;
     padding-left: 10px;
     padding-right: 10px;
   }
 
   .preview-extension-icon {
-    height: 34px;
-    width: 34px;
+    height: 30px;
+    width: 30px;
   }
 
   .step-list p code {
