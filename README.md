@@ -11,6 +11,21 @@ catalog listing. The optional [SDK](https://github.com/AddonPort/sdk) remains a 
 is not published to npm. The hosted Connect endpoint currently permits browser origins from the
 AddonPort site only, so the website must not present it as a public third-party backend.
 
+## Hosted install button
+
+The static export hosts the standalone install button built by the SDK repository:
+
+- `/sdk/v0.1.0-beta.2/addonport-button.js` is immutable and is the URL shown in documentation.
+- `/sdk/v0/addonport-button.js` tracks the latest compatible `v0` beta and uses a short cache.
+
+Both files must come from the same SDK build and remain byte-identical. When updating them, update
+the documented version and SHA-384 integrity value together. The current immutable asset is built
+from SDK tag `v0.1.0-beta.2` with integrity:
+
+~~~text
+sha384-zHgsfC2bd2SVPnJ9S0likQYWh5CPZTN8QMhP3VCAKgFUf4zmwc+a259uUBpk2MCx
+~~~
+
 ## Content boundaries
 
 The download page leads with the AddonPort workflow, keeps development-build warnings next to the

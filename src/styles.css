@@ -723,6 +723,12 @@ code {
   margin: 9px 0 0;
 }
 
+.docs-section-heading code,
+.inline-note code {
+  color: var(--text);
+  font-size: 0.92em;
+}
+
 .docs-copy {
   margin: 24px 0 0 52px;
   max-width: 650px;
@@ -806,6 +812,79 @@ code {
   margin: 0;
   overflow: auto;
   padding: 22px;
+}
+
+.integration-example {
+  margin: 28px 0 0 52px;
+  min-width: 0;
+}
+
+.integration-tabs {
+  background: var(--surface-raised);
+  border: 1px solid var(--line);
+  border-bottom: 0;
+  border-radius: 6px 6px 0 0;
+  display: flex;
+  min-height: 42px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.integration-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.integration-tabs button {
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  color: var(--muted);
+  cursor: pointer;
+  flex: 0 0 auto;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 680;
+  letter-spacing: 0;
+  padding: 0 16px;
+}
+
+.integration-tabs button:hover {
+  color: var(--text);
+}
+
+.integration-tabs button[aria-selected="true"] {
+  border-bottom-color: var(--accent);
+  color: var(--text);
+}
+
+.integration-tabs button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -3px;
+}
+
+.integration-example :where(.code-panel) {
+  border-radius: 0 0 6px 6px;
+  margin: 0;
+}
+
+.reference-group {
+  margin: 28px 0 0 52px;
+}
+
+.reference-group + .reference-group {
+  margin-top: 38px;
+}
+
+.reference-group h3 {
+  color: var(--subtle);
+  font-size: 10px;
+  font-weight: 760;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.reference-group :where(.protocol-table) {
+  margin: 12px 0 0;
 }
 
 .inline-note {
@@ -1281,11 +1360,18 @@ code {
 
   .docs-copy,
   .code-panel,
+  .integration-example,
   .inline-note,
   .protocol-table,
   .package-table,
+  .reference-group,
   .docs-section > .text-link {
     margin-left: 36px;
+  }
+
+  .integration-example :where(.code-panel),
+  .reference-group :where(.protocol-table) {
+    margin-left: 0;
   }
 
   .protocol-table > div,

@@ -233,11 +233,104 @@ function Answer({ question, answer }: { question: string; answer: string }) {
 }
 
 const EXTENSION_ID = "abcdefghijklmnopabcdefghijklmnop";
+const SDK_VERSION = "0.1.0-beta.2";
+const EMBED_URL = `https://addonport.dev/sdk/v${SDK_VERSION}/addonport-button.js`;
+const EMBED_SRI = "sha384-zHgsfC2bd2SVPnJ9S0likQYWh5CPZTN8QMhP3VCAKgFUf4zmwc+a259uUBpk2MCx";
+
+const HTML_BUTTON_SNIPPET = [
+  "<script",
+  `  src="${EMBED_URL}"`,
+  `  integrity="${EMBED_SRI}"`,
+  '  crossorigin="anonymous"',
+  "  defer",
+  "></script>",
+  "",
+  "<addonport-install-button",
+  `  target="${EXTENSION_ID}"`,
+  '  label="Install for FACEIT"',
+  "></addonport-install-button>",
+].join("\n");
+
+const REACT_BUTTON_SNIPPET = [
+  `// npm install github:AddonPort/sdk#v${SDK_VERSION}`,
+  'import { AddonPortInstallButton } from "@addonport/sdk/react";',
+  "",
+  "export function FaceitInstall() {",
+  "  return (",
+  "    <AddonPortInstallButton",
+  `      target="${EXTENSION_ID}"`,
+  '      label="Install for FACEIT"',
+  "      onOpen={({ deepLink }) => console.log(deepLink)}",
+  "    />",
+  "  );",
+  "}",
+].join("\n");
+
+const VUE_BUTTON_SNIPPET = [
+  `<!-- npm install github:AddonPort/sdk#v${SDK_VERSION} -->`,
+  '<script setup lang="ts">',
+  'import { AddonPortInstallButton } from "@addonport/sdk/vue";',
+  "",
+  "const handleOpen = ({ deepLink }: { deepLink: string }) => console.log(deepLink);",
+  "</script>",
+  "",
+  "<template>",
+  "  <AddonPortInstallButton",
+  `    target="${EXTENSION_ID}"`,
+  '    label="Install for FACEIT"',
+  '    @open="handleOpen"',
+  "  />",
+  "</template>",
+].join("\n");
+
+const JAVASCRIPT_BUTTON_SNIPPET = [
+  "// After adding the HTML element:",
+  'const button = document.querySelector("addonport-install-button");',
+  "",
+  'button.addEventListener("addonport-open", (event) => {',
+  "  const { mode, intent, deepLink } = event.detail;",
+  "  console.log({ mode, intent, deepLink });",
+  "});",
+  "",
+  'button.addEventListener("addonport-error", (event) => {',
+  "  console.error(event.detail);",
+  "});",
+].join("\n");
+
 const DIRECT_LINK_SNIPPET = [
   `<a href="addonport://install/${EXTENSION_ID}">`,
   "  Install for FACEIT with AddonPort",
   "</a>",
   '<p>Didn\'t open? <a href="https://addonport.dev/">Get AddonPort</a></p>',
+].join("\n");
+
+const EVENT_DATA_SNIPPET = [
+  "type AddonPortOpenDetail = {",
+  '  mode: "direct" | "session";',
+  '  intent: { action: "install"; target: string };',
+  "  deepLink: string;",
+  "};",
+  "",
+  "type SessionSnapshot = {",
+  "  protocolVersion: 2;",
+  "  sessionId: string;",
+  '  state: "created" | "client_opened" | "awaiting_confirmation" |',
+  '    "completed" | "rejected" | "failed" | "expired";',
+  '  intent: AddonPortOpenDetail["intent"];',
+  "  createdAt: string;",
+  "  updatedAt: string;",
+  "  expiresAt: string;",
+  "  client?: { adapter?: string; version?: string; platform?: string };",
+  "  result?: { installedVersion?: string; message?: string };",
+  "  error?: { code: string; message: string };",
+  "};",
+  "",
+  "type AddonPortButtonEventMap = {",
+  '  "addonport-open": AddonPortOpenDetail;',
+  '  "addonport-status": SessionSnapshot;',
+  '  "addonport-complete": SessionSnapshot;',
+  '  "addonport-error": unknown;',
+  "};",
 ].join("\n");
 
 const SDK_SNIPPET = [
@@ -259,104 +352,204 @@ export function DeveloperPage() {
     <main className="page docs-layout">
       <aside className="docs-nav" aria-label="Developer page sections">
         <span>Integration</span>
-        <a href="#install-link">Install link</a>
-        <a href="#actions">Actions</a>
-        <a href="#sdk">SDK preview</a>
+        <a href="#button">Install button</a>
+        <a href="#button-api">Button API</a>
+        <a href="#events">Events and data</a>
+        <a href="#protocol">Protocol</a>
+        <a href="#sessions">Session mode</a>
         <a href="#native">Native apps</a>
       </aside>
 
       <article className="docs-content">
         <header className="docs-hero">
           <p className="section-label">For extension owners</p>
-          <h1>Add a FACEIT install link.</h1>
+          <h1>Add a FACEIT install button.</h1>
           <p>
-            Point AddonPort at any valid Chrome Web Store extension ID. A basic install needs no
-            backend, SDK, custom package, or catalog listing, and the user confirms it inside
-            FACEIT.
+            Use one script tag or a framework wrapper. Direct installation needs no backend, custom
+            package, or catalog listing, and the user confirms the request inside FACEIT.
           </p>
         </header>
 
-        <section className="docs-section" id="install-link">
+        <section className="docs-section" id="button">
           <div className="docs-section-heading">
             <span>01</span>
             <div>
-              <h2>Install link</h2>
-              <p>Replace the example ID and open the link only after a user action.</p>
+              <h2>Choose an integration</h2>
+              <p>Replace the example with the extension&apos;s 32-character Chrome Web Store ID.</p>
             </div>
           </div>
-          <CodeBlock label="HTML" code={DIRECT_LINK_SNIPPET} />
+          <IntegrationTabs />
           <div className="inline-note positive-note">
             <ShieldCheck aria-hidden="true" />
             <p>
-              <strong>The user reviews the request before download.</strong> Direct Web Store IDs
-              are marked as not catalog-reviewed. The link cannot change package source,
-              permissions, or files.
+              <strong>Direct mode is the default.</strong> The button opens an{" "}
+              <code>addonport://install/&lt;id&gt;</code> handoff and makes no API request.
+              AddonPort then shows the extension and asks the user to confirm.
             </p>
           </div>
           <div className="inline-note">
             <CircleAlert aria-hidden="true" />
             <p>
-              Browser focus and timeout heuristics cannot prove AddonPort is installed. Keep a
-              neutral <q>Didn&apos;t open?</q> fallback instead of claiming detection.
+              Keep a neutral <q>Get AddonPort</q> fallback near the button. Browser focus and
+              timeout heuristics cannot reliably detect whether a custom protocol handler is
+              installed.
             </p>
           </div>
         </section>
 
-        <section className="docs-section" id="actions">
+        <section className="docs-section" id="button-api">
           <div className="docs-section-heading">
             <span>02</span>
             <div>
-              <h2>Supported actions</h2>
-              <p>The protocol is versioned; installation always requires confirmation.</p>
+              <h2>Button API</h2>
+              <p>Attributes configure behavior; CSS properties and parts control appearance.</p>
             </div>
           </div>
-          <dl className="protocol-table">
-            <ProtocolRow
-              name="addonport://install/<id>"
-              description="Review and install a catalog ID or Chrome extension ID"
-            />
-            <ProtocolRow
-              name="addonport://launch/<id>"
-              description="Open an installed extension action"
-            />
-            <ProtocolRow name="addonport://open" description="Open the in-client manager" />
-          </dl>
-          <a className="text-link" href={INTEGRATION_URL} target="_blank" rel="noreferrer">
-            Complete integration contract <ExternalLink aria-hidden="true" />
-          </a>
+          <div className="reference-group">
+            <h3>Attributes</h3>
+            <dl className="protocol-table">
+              <ProtocolRow
+                name="target"
+                description="Required. Chrome Web Store extension ID or AddonPort catalog slug."
+              />
+              <ProtocolRow
+                name="label"
+                description='Optional idle label. Defaults to "Install with AddonPort".'
+              />
+              <ProtocolRow
+                name="disabled"
+                description="Optional boolean attribute that disables interaction."
+              />
+              <ProtocolRow
+                name="api-base-url"
+                description="Optional. Enables session mode against a compatible Connect endpoint."
+              />
+            </dl>
+          </div>
+          <div className="reference-group">
+            <h3>Styling</h3>
+            <dl className="protocol-table">
+              <ProtocolRow
+                name="--addonport-accent"
+                description="Accent, focus, and status color."
+              />
+              <ProtocolRow name="--addonport-bg" description="Button background color." />
+              <ProtocolRow name="--addonport-fg" description="Text and icon color." />
+              <ProtocolRow
+                name="::part(button | icon | label)"
+                description="Shadow parts for site-specific styling beyond the color properties."
+              />
+            </dl>
+          </div>
         </section>
 
-        <section className="docs-section" id="sdk">
+        <section className="docs-section" id="events">
           <div className="docs-section-heading">
             <span>03</span>
             <div>
+              <h2>Events and data</h2>
+              <p>
+                Every event bubbles through Shadow DOM and exposes its payload in{" "}
+                <code>event.detail</code>.
+              </p>
+            </div>
+          </div>
+          <div className="reference-group">
+            <h3>Web component events</h3>
+            <dl className="protocol-table">
+              <ProtocolRow
+                name="addonport-open"
+                description="Direct and session modes. Returns mode, validated intent, and deepLink."
+              />
+              <ProtocolRow
+                name="addonport-status"
+                description="Session mode. Returns the latest SessionSnapshot while polling."
+              />
+              <ProtocolRow
+                name="addonport-complete"
+                description="Session mode. Returns the completed SessionSnapshot."
+              />
+              <ProtocolRow
+                name="addonport-error"
+                description="Returns the error raised while validating, preparing, or opening."
+              />
+            </dl>
+          </div>
+          <div className="reference-group">
+            <h3>Framework callbacks</h3>
+            <dl className="protocol-table">
+              <ProtocolRow
+                name="React"
+                description="onOpen, onStatus, onComplete, and onError receive the payload directly."
+              />
+              <ProtocolRow
+                name="Vue"
+                description="@open, @status, @complete, and @error receive the emitted payload directly."
+              />
+            </dl>
+          </div>
+          <CodeBlock label="TypeScript payloads" code={EVENT_DATA_SNIPPET} />
+          <div className="inline-note warning-note">
+            <CircleAlert aria-hidden="true" />
+            <p>
+              <strong>
+                <code>addonport-open</code> is a handoff signal, not installation proof.
+              </strong>{" "}
+              Only a completed session can report an outcome, and session results are UX signals
+              rather than authentication or device attestation.
+            </p>
+          </div>
+        </section>
+
+        <section className="docs-section" id="protocol">
+          <div className="docs-section-heading">
+            <span>04</span>
+            <div>
+              <h2>Direct protocol</h2>
+              <p>Use links directly when a custom button or framework package is unnecessary.</p>
+            </div>
+          </div>
+          <CodeBlock label="HTML link" code={DIRECT_LINK_SNIPPET} />
+          <dl className="protocol-table">
+            <ProtocolRow
+              name="addonport://install/<id>"
+              description="Review and install a catalog slug or Chrome extension ID."
+            />
+            <ProtocolRow
+              name="addonport://launch/<id>"
+              description="Open the action for an installed extension."
+            />
+            <ProtocolRow name="addonport://open" description="Open the in-client manager." />
+          </dl>
+          <a className="text-link" href={INTEGRATION_URL} target="_blank" rel="noreferrer">
+            Complete protocol contract <ExternalLink aria-hidden="true" />
+          </a>
+        </section>
+
+        <section className="docs-section" id="sessions">
+          <div className="docs-section-heading">
+            <span>05</span>
+            <div>
               <div className="heading-with-badge">
-                <h2>SDK</h2>
+                <h2>Session mode</h2>
                 <span>Preview</span>
               </div>
-              <p>Use a session only when the page needs an outcome after opening the client.</p>
+              <p>Use a session only when the page needs a result after opening the client.</p>
             </div>
           </div>
           <p className="docs-copy">
-            The SDK models opened, pending, completed, rejected, failed, and expired states. These
-            improve UX; they are not authentication or device attestation.
+            Session mode prepares a short-lived request, opens its signed handoff, and polls the
+            endpoint through created, client opened, confirmation, and terminal states.
           </p>
           <div className="inline-note warning-note">
             <CircleAlert aria-hidden="true" />
             <p>
-              <strong>Not a public hosted service yet.</strong> The package is a GitHub beta, is not
-              on npm, and AddonPort&apos;s hosted Connect endpoint currently accepts only AddonPort
-              origins. Use a direct link or self-host Connect with an explicit origin allowlist.
+              <strong>There is no public cross-origin Connect service yet.</strong> The package is a
+              GitHub beta and is not on npm. Use your own compatible endpoint with an explicit
+              origin allowlist; do not put session tokens in page URLs or analytics.
             </p>
           </div>
           <CodeBlock label="Self-hosted session" code={SDK_SNIPPET} />
-          <dl className="package-table">
-            <ProtocolRow name="@addonport/sdk" description="Framework-neutral session client" />
-            <ProtocolRow name="@addonport/sdk/protocol" description="Intents and deep links" />
-            <ProtocolRow name="@addonport/sdk/elements" description="Custom element" />
-            <ProtocolRow name="@addonport/sdk/react" description="React wrapper" />
-            <ProtocolRow name="@addonport/sdk/vue" description="Vue 3 wrapper" />
-          </dl>
           <a className="text-link" href={SDK_URL} target="_blank" rel="noreferrer">
             SDK repository <ExternalLink aria-hidden="true" />
           </a>
@@ -364,7 +557,7 @@ export function DeveloperPage() {
 
         <section className="docs-section" id="native">
           <div className="docs-section-heading">
-            <span>04</span>
+            <span>06</span>
             <div>
               <h2>Native Windows apps</h2>
               <p>Read the current-user registry key without launching FACEIT.</p>
@@ -382,7 +575,7 @@ export function DeveloperPage() {
           />
           <p className="docs-copy">
             Compare <code>ProtocolVersion</code> before relying on newer link actions. Browser pages
-            cannot read this key and should use the direct-link fallback.
+            cannot read this key and should keep the direct-link fallback.
           </p>
         </section>
 
@@ -392,6 +585,87 @@ export function DeveloperPage() {
         </p>
       </article>
     </main>
+  );
+}
+
+const INTEGRATION_EXAMPLES = [
+  { id: "html", label: "HTML", codeLabel: "HTML", code: HTML_BUTTON_SNIPPET },
+  { id: "react", label: "React", codeLabel: "React / TSX", code: REACT_BUTTON_SNIPPET },
+  { id: "vue", label: "Vue", codeLabel: "Vue 3", code: VUE_BUTTON_SNIPPET },
+  {
+    id: "javascript",
+    label: "JavaScript",
+    codeLabel: "JavaScript",
+    code: JAVASCRIPT_BUTTON_SNIPPET,
+  },
+] as const;
+
+type IntegrationExampleId = (typeof INTEGRATION_EXAMPLES)[number]["id"];
+
+function IntegrationTabs() {
+  const [activeId, setActiveId] = useState<IntegrationExampleId>("html");
+  const active =
+    INTEGRATION_EXAMPLES.find((example) => example.id === activeId) ?? INTEGRATION_EXAMPLES[0];
+
+  const focusTab = (id: IntegrationExampleId) => {
+    setActiveId(id);
+    window.requestAnimationFrame(() => document.getElementById(`integration-tab-${id}`)?.focus());
+  };
+
+  const move = (current: IntegrationExampleId, offset: number) => {
+    const currentIndex = INTEGRATION_EXAMPLES.findIndex((example) => example.id === current);
+    const next = INTEGRATION_EXAMPLES.at(
+      (currentIndex + offset + INTEGRATION_EXAMPLES.length) % INTEGRATION_EXAMPLES.length,
+    );
+    if (!next) return;
+    focusTab(next.id);
+  };
+
+  return (
+    <div className="integration-example">
+      <div className="integration-tabs" role="tablist" aria-label="Integration example">
+        {INTEGRATION_EXAMPLES.map((example) => (
+          <button
+            id={`integration-tab-${example.id}`}
+            key={example.id}
+            type="button"
+            role="tab"
+            aria-controls="integration-example-panel"
+            aria-selected={activeId === example.id}
+            tabIndex={activeId === example.id ? 0 : -1}
+            onClick={() => setActiveId(example.id)}
+            onKeyDown={(event) => {
+              if (event.key === "ArrowRight") {
+                event.preventDefault();
+                move(example.id, 1);
+              }
+              if (event.key === "ArrowLeft") {
+                event.preventDefault();
+                move(example.id, -1);
+              }
+              if (event.key === "Home") {
+                event.preventDefault();
+                focusTab(INTEGRATION_EXAMPLES[0].id);
+              }
+              if (event.key === "End") {
+                event.preventDefault();
+                const last = INTEGRATION_EXAMPLES.at(-1);
+                if (last) focusTab(last.id);
+              }
+            }}
+          >
+            {example.label}
+          </button>
+        ))}
+      </div>
+      <div
+        id="integration-example-panel"
+        role="tabpanel"
+        aria-labelledby={`integration-tab-${active.id}`}
+      >
+        <CodeBlock label={active.codeLabel} code={active.code} />
+      </div>
+    </div>
   );
 }
 
