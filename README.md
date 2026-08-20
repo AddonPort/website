@@ -1,11 +1,15 @@
 # AddonPort Website
 
-Installation and developer integration documentation for AddonPort.
+Installation, product boundaries, and developer integration documentation for AddonPort.
 
-The public site is available at [addonport.dev](https://addonport.dev). Direct `addonport://` links
-are the simplest FACEIT integration. The optional SDK and hosted result channel are available as a
-[GitHub beta](https://github.com/AddonPort/sdk). The install page links to the rolling Setup asset
-published by the FACEIT adapter development release.
+The public site is available at [addonport.dev](https://addonport.dev). The install page currently
+links to the mutable `dev-latest` Setup asset from the FACEIT adapter because the AddonPort v2
+integration has not yet been published as a versioned beta.
+
+For extension owners, direct `addonport://` links are the working integration and require no SDK or
+catalog listing. The optional [SDK](https://github.com/AddonPort/sdk) remains a GitHub preview and
+is not published to npm. The hosted Connect endpoint currently permits browser origins from the
+AddonPort site only, so the website must not present it as a public third-party backend.
 
 ## Development
 

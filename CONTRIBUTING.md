@@ -1,7 +1,8 @@
 # Contributing
 
 Use Node.js 22 or newer and pnpm through Corepack. Keep installation steps and integration examples
-consistent with the released FACEIT adapter and SDK.
+consistent with the website's current download target, the FACEIT adapter contract, and the actual
+availability of the SDK and Connect service.
 
 ~~~bash
 pnpm install

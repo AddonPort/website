@@ -287,40 +287,67 @@ code {
   width: 14px;
 }
 
-.beta-note {
+.download-meta {
+  color: var(--subtle);
+  font-size: 11px;
+  line-height: 1.6;
+  margin: 16px 0 0;
+  max-width: 520px;
+}
+
+.build-note {
   align-items: flex-start;
+  border-left: 2px solid var(--warning);
   color: var(--warning);
   display: flex;
   font-size: 12px;
-  gap: 8px;
+  gap: 10px;
   line-height: 1.5;
-  margin: 16px 0 0;
+  margin: 18px 0 0;
+  max-width: 540px;
+  padding-left: 12px;
 }
 
-.beta-note svg {
-  height: 15px;
-  margin-top: 1px;
-  width: 15px;
+.build-note svg {
+  height: 16px;
+  margin-top: 2px;
+  width: 16px;
 }
 
-.install-scope {
+.build-note p {
+  margin: 0;
+}
+
+.build-note strong,
+.build-note span {
+  display: block;
+}
+
+.build-note span {
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.hero-summary {
   min-width: 0;
 }
 
-.install-scope > .eyebrow {
+.hero-summary > .eyebrow {
   margin-bottom: 14px;
 }
 
-.scope-facts,
+.hero-facts,
 .workflow-list,
-.support-facts {
+.support-facts,
+.trust-facts {
   border-bottom: 1px solid var(--line);
   margin: 0;
 }
 
-.scope-facts > div,
+.hero-facts > div,
 .workflow-list > div,
-.support-facts > div {
+.support-facts > div,
+.trust-facts > div {
   border-top: 1px solid var(--line);
   display: grid;
   gap: 20px;
@@ -328,16 +355,18 @@ code {
   padding: 16px 0;
 }
 
-.scope-facts dt,
+.hero-facts dt,
 .workflow-list dt,
-.support-facts dt {
+.support-facts dt,
+.trust-facts dt {
   font-size: 12px;
   font-weight: 700;
 }
 
-.scope-facts dd,
+.hero-facts dd,
 .workflow-list dd,
-.support-facts dd {
+.support-facts dd,
+.trust-facts dd {
   color: var(--muted);
   font-size: 12px;
   line-height: 1.6;
@@ -353,7 +382,6 @@ code {
 }
 
 .section-heading h2,
-.use-copy h2,
 .support-grid h2 {
   font-size: 31px;
   line-height: 1.16;
@@ -361,7 +389,6 @@ code {
 }
 
 .section-heading > p:last-child,
-.use-copy > p,
 .support-grid > div > p:last-child {
   color: var(--muted);
   font-size: 14px;
@@ -402,14 +429,12 @@ code {
   width: 30px;
 }
 
-.step-list h3,
-.reference-row h3 {
+.step-list h3 {
   font-size: 14px;
   margin: 1px 0 6px;
 }
 
-.step-list p,
-.reference-row p {
+.step-list p {
   color: var(--muted);
   font-size: 13px;
   line-height: 1.6;
@@ -421,7 +446,9 @@ code {
   font-size: 12px;
 }
 
-.use-layout {
+.install-layout,
+.trust-layout,
+.sdk-preview-layout {
   display: grid;
   gap: 80px;
   grid-template-columns: minmax(300px, 0.82fr) minmax(480px, 1.18fr);
@@ -429,8 +456,15 @@ code {
   padding-top: 84px;
 }
 
-.support-band {
-  border-bottom: 0;
+.section-note {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.65;
+  margin: 16px 0 0;
+}
+
+.section-note strong {
+  color: var(--text);
 }
 
 .support-grid {
@@ -533,41 +567,6 @@ code {
   color: var(--positive);
 }
 
-.framework-tabs {
-  border-bottom: 1px solid var(--line);
-  display: flex;
-  gap: 24px;
-  margin-top: 36px;
-  overflow-x: auto;
-}
-
-.framework-tabs button {
-  background: transparent;
-  border: 0;
-  color: var(--muted);
-  cursor: pointer;
-  flex: 0 0 auto;
-  font-size: 12px;
-  font-weight: 700;
-  padding: 0 0 13px;
-  position: relative;
-}
-
-.framework-tabs button:hover,
-.framework-tabs button.active {
-  color: var(--text);
-}
-
-.framework-tabs button.active::after {
-  background: var(--accent);
-  bottom: -1px;
-  content: "";
-  height: 2px;
-  left: 0;
-  position: absolute;
-  right: 0;
-}
-
 .code-panel {
   background: var(--code);
   border: 1px solid var(--line);
@@ -654,13 +653,10 @@ code {
   font-size: 12px;
 }
 
-.developer-reference {
-  padding-bottom: 84px;
-  padding-top: 84px;
-}
-
-.developer-reference > .section-heading {
-  max-width: 700px;
+.sdk-layout > .code-panel,
+.sdk-layout > .package-list,
+.sdk-layout > .section-note {
+  max-width: 900px;
 }
 
 .protocol-doc-link {
@@ -668,41 +664,12 @@ code {
   margin-top: 28px;
 }
 
-.protocol-grid {
+.sdk-preview-layout {
   align-items: start;
-  display: grid;
-  gap: 44px;
-  grid-template-columns: minmax(430px, 1.1fr) minmax(320px, 0.9fr);
-  margin-top: 36px;
 }
 
-.protocol-grid .code-panel {
-  margin: 0;
-}
-
-.protocol-rules {
-  border-bottom: 1px solid var(--line);
-}
-
-.reference-row {
-  align-items: flex-start;
-  border-top: 1px solid var(--line);
-  display: grid;
-  gap: 14px;
-  grid-template-columns: 28px 1fr;
-  padding: 15px 0;
-}
-
-.reference-row > span {
-  align-items: center;
-  color: var(--accent);
-  display: flex;
-  height: 24px;
-}
-
-.reference-row svg {
-  height: 16px;
-  width: 16px;
+.sdk-preview-layout > div > .package-notice {
+  margin-top: 0;
 }
 
 .native-layout {
@@ -836,11 +803,13 @@ code {
 @media (max-width: 980px) {
   .install-hero,
   .section-layout,
-  .use-layout,
+  .install-layout,
   .support-grid,
+  .trust-layout,
   .developer-intro,
+  .sdk-preview-layout,
   .native-layout {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .install-hero {
@@ -853,7 +822,9 @@ code {
     grid-column: 1;
   }
 
-  .use-layout,
+  .install-layout,
+  .trust-layout,
+  .sdk-preview-layout,
   .developer-intro {
     gap: 50px;
   }
@@ -861,10 +832,6 @@ code {
   .support-grid,
   .native-layout {
     gap: 36px;
-  }
-
-  .protocol-grid {
-    grid-template-columns: 1fr;
   }
 }
 
@@ -914,25 +881,24 @@ code {
   }
 
   .section-layout,
-  .sdk-layout {
+  .install-layout,
+  .trust-layout,
+  .sdk-layout,
+  .sdk-preview-layout {
     padding-bottom: 56px;
     padding-top: 56px;
   }
 
-  .section-layout {
+  .section-layout,
+  .install-layout,
+  .trust-layout,
+  .sdk-preview-layout {
     gap: 36px;
   }
 
   .section-heading h2,
-  .use-copy h2,
   .support-grid h2 {
     font-size: 27px;
-  }
-
-  .use-layout,
-  .developer-reference {
-    padding-bottom: 62px;
-    padding-top: 62px;
   }
 
   .support-grid,
@@ -947,15 +913,12 @@ code {
     padding-top: 50px;
   }
 
-  .scope-facts > div,
+  .hero-facts > div,
   .workflow-list > div,
-  .support-facts > div {
-    gap: 8px;
-    grid-template-columns: 1fr;
-  }
-
-  .framework-tabs {
-    gap: 20px;
+  .support-facts > div,
+  .trust-facts > div {
+    gap: 12px;
+    grid-template-columns: 96px 1fr;
   }
 
   .code-panel pre {
@@ -973,11 +936,6 @@ code {
     grid-column: 1;
     grid-row: 2;
   }
-
-  .protocol-grid {
-    gap: 32px;
-  }
-
   .footer {
     align-items: flex-start;
     gap: 10px;
@@ -1022,11 +980,11 @@ code {
     width: 100%;
   }
 
-  .beta-note {
-    margin-top: 14px;
+  .build-note {
+    margin-top: 18px;
   }
 
-  .scope-facts > div {
+  .hero-facts > div {
     gap: 12px;
     grid-template-columns: 82px 1fr;
     padding: 11px 0;
