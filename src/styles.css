@@ -343,13 +343,6 @@ code {
   width: 100%;
 }
 
-.product-preview figcaption {
-  border-top: 1px solid var(--line);
-  color: var(--subtle);
-  font-size: 11px;
-  padding: 10px 12px;
-}
-
 .section-layout {
   display: grid;
   gap: 44px 72px;
@@ -1153,10 +1146,6 @@ code {
 
   .beta-note {
     margin-top: 12px;
-  }
-
-  .product-preview figcaption {
-    display: none;
   }
 
   .step-list p code {

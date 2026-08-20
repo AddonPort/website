@@ -71,9 +71,6 @@ export function InstallPage() {
               unoptimized
             />
           </div>
-          <figcaption>
-            Current beta interface, rendered directly from the FACEIT adapter.
-          </figcaption>
         </figure>
       </section>
 
