@@ -54,7 +54,7 @@ export function Footer() {
         <span className="footer-brand">
           <Cable aria-hidden="true" /> AddonPort
         </span>
-        <span>FACEIT adapter: GPL-3.0. SDK and protocol experiments: MIT.</span>
+        <span>FACEIT adapter: GPL-3.0. SDK and protocol: MIT.</span>
       </div>
       <span>Unofficial and not affiliated with or endorsed by FACEIT.</span>
       <a href={REPOSITORY_URL} target="_blank" rel="noreferrer">

@@ -4,7 +4,8 @@ Installation and developer integration documentation for AddonPort.
 
 The public site is available at [addonport.dev](https://addonport.dev). Direct `addonport://` links
 are the simplest FACEIT integration. The optional SDK and hosted result channel are available as a
-GitHub beta.
+[GitHub beta](https://github.com/AddonPort/sdk). The install page links to the rolling Setup asset
+published by the FACEIT adapter development release.
 
 ## Development
 

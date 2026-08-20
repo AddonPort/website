@@ -14,18 +14,20 @@ import {
   Puzzle,
   RefreshCcw,
   RotateCcw,
-  Settings2,
   ShieldCheck,
   Terminal,
   Wrench,
-  X,
 } from "lucide-react";
+import Image from "next/image";
 import type { ReactNode } from "react";
 import { useState } from "react";
 
 const RELEASE_URL = "https://github.com/AddonPort/faceit/releases/tag/dev-latest";
+const DOWNLOAD_URL =
+  "https://github.com/AddonPort/faceit/releases/download/dev-latest/AddonPort-for-FACEIT-Setup-x64.exe";
 const ISSUE_URL = "https://github.com/AddonPort/faceit/issues/new?template=extension.yml";
 const INTEGRATION_URL = "https://github.com/AddonPort/faceit/blob/dev/docs/INTEGRATION.md";
+const SDK_URL = "https://github.com/AddonPort/sdk";
 
 export function InstallPage() {
   return (
@@ -38,12 +40,7 @@ export function InstallPage() {
             Install and manage compatible Chrome extensions inside the FACEIT desktop client.
           </p>
           <div className="hero-actions">
-            <a
-              className="button primary-button"
-              href={RELEASE_URL}
-              target="_blank"
-              rel="noreferrer"
-            >
+            <a className="button primary-button" href={DOWNLOAD_URL}>
               <Download aria-hidden="true" />
               Download beta
             </a>
@@ -63,48 +60,20 @@ export function InstallPage() {
           </p>
         </div>
 
-        <figure className="product-preview" aria-label="AddonPort extension manager preview">
-          <div className="preview-stage">
-            <div className="preview-workspace" aria-hidden="true">
-              <span>FACEIT</span>
-              <strong>Matchroom</strong>
-            </div>
-            <div className="preview-rail" aria-hidden="true">
-              <span>F</span>
-              <span>P</span>
-              <span>R</span>
-              <span className="active">AP</span>
-            </div>
-            <div className="preview-manager">
-              <header className="preview-manager-header">
-                <span className="preview-manager-mark">AP</span>
-                <div>
-                  <strong>AddonPort</strong>
-                  <small>Public beta · 3 extensions</small>
-                </div>
-                <span className="preview-manager-action" aria-hidden="true">
-                  <Settings2 />
-                </span>
-                <span className="preview-manager-action" aria-hidden="true">
-                  <X />
-                </span>
-              </header>
-              <div className="preview-tabs">
-                <span className="active">Extensions</span>
-                <span>Add</span>
-              </div>
-              <div className="preview-list-heading">
-                <strong>Extensions</strong>
-                <span>3 installed</span>
-              </div>
-              <div className="preview-extension-list">
-                <PreviewExtension name="PeekStats" version="2.1.6" initial="P" enabled />
-                <PreviewExtension name="FACEIT Forecast" version="2.1.3" initial="F" enabled />
-                <PreviewExtension name="Repeek" version="5.6.10" initial="R" />
-              </div>
-            </div>
+        <figure className="product-preview">
+          <div className="product-preview-media">
+            <Image
+              src="/images/addonport-faceit-manager.png"
+              alt="AddonPort extension manager open beside the FACEIT right sidebar"
+              width={560}
+              height={380}
+              sizes="(max-width: 980px) calc(100vw - 64px), 560px"
+              unoptimized
+            />
           </div>
-          <figcaption>Extension controls stay inside the FACEIT sidebar.</figcaption>
+          <figcaption>
+            Current beta interface, rendered directly from the FACEIT adapter.
+          </figcaption>
         </figure>
       </section>
 
@@ -128,7 +97,7 @@ export function InstallPage() {
               <div>
                 <h3>Run Setup</h3>
                 <p>
-                  Download <code>FACEIT-Extension-Loader-Setup-*-x64.exe</code> and select{" "}
+                  Download <code>AddonPort-for-FACEIT-Setup-x64.exe</code> and select{" "}
                   <strong>Install</strong>.
                 </p>
               </div>
@@ -146,7 +115,11 @@ export function InstallPage() {
             <div>
               <strong>Verify the beta before running it.</strong>
               <span>
-                Each release includes a matching <code>.sha256</code> checksum file.
+                The{" "}
+                <a href={RELEASE_URL} target="_blank" rel="noreferrer">
+                  release page
+                </a>{" "}
+                includes the matching <code>.sha256</code> checksum.
               </span>
             </div>
           </div>
@@ -227,33 +200,6 @@ export function InstallPage() {
         </div>
       </section>
     </main>
-  );
-}
-
-function PreviewExtension({
-  name,
-  version,
-  initial,
-  enabled = false,
-}: {
-  name: string;
-  version: string;
-  initial: string;
-  enabled?: boolean;
-}) {
-  return (
-    <div className="preview-extension-row">
-      <span className={`preview-extension-icon${enabled ? " enabled" : ""}`}>{initial}</span>
-      <div>
-        <strong>{name}</strong>
-        <small>
-          <i className={enabled ? "active" : ""} /> {enabled ? "Active" : "Disabled"} · v{version}
-        </small>
-      </div>
-      <span className={`preview-switch${enabled ? " on" : ""}`} aria-hidden="true">
-        <i />
-      </span>
-    </div>
   );
 }
 
@@ -366,7 +312,11 @@ export function DeveloperPage() {
             <div>
               <strong>No SDK is required for direct FACEIT links.</strong>
               <span>
-                The optional SDK and hosted result channel are available as a GitHub beta.
+                The optional{" "}
+                <a href={SDK_URL} target="_blank" rel="noreferrer">
+                  SDK
+                </a>{" "}
+                and hosted result channel are available as a GitHub beta.
               </span>
             </div>
           </div>

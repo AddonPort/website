@@ -53,6 +53,18 @@ a {
   color: inherit;
 }
 
+.verification-note a,
+.package-notice a {
+  color: var(--text);
+  text-decoration-color: var(--line-strong);
+  text-underline-offset: 3px;
+}
+
+.verification-note a:hover,
+.package-notice a:hover {
+  text-decoration-color: currentColor;
+}
+
 svg {
   flex: 0 0 auto;
 }
@@ -310,7 +322,7 @@ code {
 }
 
 .product-preview {
-  background: #080809;
+  background: #101010;
   border: 1px solid var(--line-strong);
   border-radius: 7px;
   box-shadow: 0 24px 70px rgba(0, 0, 0, 0.32);
@@ -318,255 +330,17 @@ code {
   overflow: hidden;
 }
 
-.preview-stage {
-  background: #0f0f10;
-  min-height: 474px;
+.product-preview-media {
+  aspect-ratio: 28 / 19;
+  background: #0f0f0f;
   overflow: hidden;
-  position: relative;
 }
 
-.preview-workspace {
-  color: var(--subtle);
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  left: 30px;
-  position: absolute;
-  top: 28px;
-}
-
-.preview-workspace span {
-  color: var(--text);
-  font-size: 12px;
-  font-weight: 800;
-}
-
-.preview-workspace strong {
-  font-size: 20px;
-}
-
-.preview-rail {
-  align-items: center;
-  background: #151516;
-  border-left: 1px solid var(--line);
-  bottom: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 7px;
-  padding: 16px 9px;
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 54px;
-}
-
-.preview-rail span {
-  align-items: center;
-  background: #202022;
-  border-radius: 5px;
-  color: #8e8e95;
-  display: flex;
-  font-size: 10px;
-  font-weight: 800;
-  height: 36px;
-  justify-content: center;
-  width: 36px;
-}
-
-.preview-rail span.active {
-  background: #2a1a16;
-  color: var(--accent);
-  margin-top: auto;
-}
-
-.preview-manager {
-  background: #181819;
-  border: 1px solid #3b3b3e;
-  border-radius: 7px 0 0 7px;
-  bottom: 20px;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.42);
-  overflow: hidden;
-  position: absolute;
-  right: 54px;
-  width: min(430px, calc(100% - 92px));
-}
-
-.preview-manager-header {
-  align-items: center;
-  border-bottom: 1px solid var(--line);
-  display: grid;
-  gap: 10px;
-  grid-template-columns: 32px 1fr 28px 28px;
-  min-height: 58px;
-  padding: 9px 11px;
-}
-
-.preview-manager-mark,
-.preview-extension-icon {
-  align-items: center;
-  background: #30201c;
-  border-radius: 5px;
-  color: var(--accent);
-  display: flex;
-  font-size: 10px;
-  font-weight: 850;
-  height: 32px;
-  justify-content: center;
-  width: 32px;
-}
-
-.preview-manager-header div,
-.preview-extension-row div {
-  min-width: 0;
-}
-
-.preview-manager-header strong,
-.preview-extension-row strong {
+.product-preview img {
   display: block;
-  font-size: 12px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.preview-manager-header small,
-.preview-extension-row small {
-  color: var(--subtle);
-  display: block;
-  font-size: 9px;
-  line-height: 1.5;
-  margin-top: 2px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.preview-manager-action {
-  align-items: center;
-  color: var(--subtle);
-  display: flex;
-  height: 28px;
-  justify-content: center;
-  width: 28px;
-}
-
-.preview-manager-action svg {
-  height: 15px;
-  width: 15px;
-}
-
-.preview-tabs {
-  align-items: end;
-  border-bottom: 1px solid var(--line);
-  display: flex;
-  gap: 24px;
-  height: 40px;
-  padding: 0 13px;
-}
-
-.preview-tabs span {
-  color: var(--subtle);
-  font-size: 10px;
-  font-weight: 750;
-  height: 40px;
-  padding-top: 14px;
-  position: relative;
-}
-
-.preview-tabs span.active {
-  color: var(--text);
-}
-
-.preview-tabs span.active::after {
-  background: var(--accent);
-  bottom: 0;
-  content: "";
-  height: 2px;
-  left: 0;
-  position: absolute;
-  right: 0;
-}
-
-.preview-list-heading {
-  align-items: center;
-  border-bottom: 1px solid var(--line);
-  display: flex;
-  justify-content: space-between;
-  min-height: 45px;
-  padding: 0 13px;
-}
-
-.preview-list-heading strong {
-  font-size: 12px;
-}
-
-.preview-list-heading span {
-  color: var(--subtle);
-  font-size: 9px;
-}
-
-.preview-extension-row {
-  align-items: center;
-  border-bottom: 1px solid var(--line);
-  display: grid;
-  gap: 11px;
-  grid-template-columns: 36px 1fr 30px;
-  min-height: 66px;
-  padding: 8px 13px;
-}
-
-.preview-extension-row:last-child {
-  border-bottom: 0;
-}
-
-.preview-extension-icon {
-  background: #272729;
-  color: #b4b4ba;
-  height: 36px;
-  width: 36px;
-}
-
-.preview-extension-icon.enabled {
-  background: #2569b8;
-  color: white;
-}
-
-.preview-switch {
-  background: #3a3a3d;
-  border-radius: 999px;
-  display: block;
-  height: 18px;
-  padding: 3px;
-  width: 30px;
-}
-
-.preview-switch i {
-  background: #c7c7ca;
-  border-radius: 50%;
-  display: block;
-  height: 12px;
-  width: 12px;
-}
-
-.preview-switch.on {
-  background: #2b9b68;
-}
-
-.preview-switch.on i {
-  background: white;
-  margin-left: 12px;
-}
-
-.preview-extension-row small i {
-  background: #77777d;
-  border-radius: 50%;
-  display: inline-block;
-  height: 5px;
-  width: 5px;
-}
-
-.preview-extension-row small i.active {
-  background: var(--positive);
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
 }
 
 .product-preview figcaption {
@@ -1190,10 +964,6 @@ code {
     max-width: 760px;
   }
 
-  .preview-stage {
-    min-height: 520px;
-  }
-
   .verification-note,
   .text-link,
   .trust-note {
@@ -1387,74 +1157,6 @@ code {
 
   .product-preview figcaption {
     display: none;
-  }
-
-  .preview-stage {
-    min-height: 260px;
-  }
-
-  .preview-workspace {
-    display: none;
-  }
-
-  .preview-manager {
-    bottom: 6px;
-    left: 10px;
-    right: 46px;
-    width: auto;
-  }
-
-  .preview-rail {
-    padding: 10px 7px;
-    width: 46px;
-  }
-
-  .preview-rail span {
-    height: 32px;
-    width: 32px;
-  }
-
-  .preview-manager-header {
-    gap: 7px;
-    grid-template-columns: 28px 1fr 24px 24px;
-    min-height: 46px;
-    padding: 6px 8px;
-  }
-
-  .preview-manager-mark {
-    height: 28px;
-    width: 28px;
-  }
-
-  .preview-manager-action {
-    height: 24px;
-    width: 24px;
-  }
-
-  .preview-tabs,
-  .preview-tabs span {
-    height: 32px;
-  }
-
-  .preview-tabs span {
-    padding-top: 10px;
-  }
-
-  .preview-list-heading {
-    min-height: 34px;
-  }
-
-  .preview-extension-row {
-    gap: 9px;
-    grid-template-columns: 30px 1fr 30px;
-    min-height: 46px;
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-
-  .preview-extension-icon {
-    height: 30px;
-    width: 30px;
   }
 
   .step-list p code {
