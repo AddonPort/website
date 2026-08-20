@@ -26,7 +26,7 @@ export function Header() {
         <Link className={pathname === "/" || pathname === "/install" ? "active" : ""} href="/">
           Download
         </Link>
-        <Link className={pathname === "/developers" ? "active" : ""} href="/developers/">
+        <Link className={pathname === "/developers" ? "active" : ""} href="/developers">
           Developers
         </Link>
       </nav>
