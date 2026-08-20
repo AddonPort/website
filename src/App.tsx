@@ -233,9 +233,9 @@ function Answer({ question, answer }: { question: string; answer: string }) {
 }
 
 const EXTENSION_ID = "abcdefghijklmnopabcdefghijklmnop";
-const SDK_VERSION = "0.1.0-beta.2";
+const SDK_VERSION = "0.1.0-beta.3";
 const EMBED_URL = `https://addonport.dev/sdk/v${SDK_VERSION}/addonport-button.js`;
-const EMBED_SRI = "sha384-zHgsfC2bd2SVPnJ9S0likQYWh5CPZTN8QMhP3VCAKgFUf4zmwc+a259uUBpk2MCx";
+const EMBED_SRI = "sha384-S44QavU5ux+H2a0FXQRmS7dCTSLCGQf0OnAPrBshmuUV8VHZBkUDEjmGHX5nJIiW";
 
 const HTML_BUTTON_SNIPPET = [
   "<script",
@@ -261,6 +261,7 @@ const REACT_BUTTON_SNIPPET = [
   `      target="${EXTENSION_ID}"`,
   '      label="Install for FACEIT"',
   "      onOpen={({ deepLink }) => console.log(deepLink)}",
+  "      onComplete={({ state }) => console.log(state)}",
   "    />",
   "  );",
   "}",
@@ -272,6 +273,7 @@ const VUE_BUTTON_SNIPPET = [
   'import { AddonPortInstallButton } from "@addonport/sdk/vue";',
   "",
   "const handleOpen = ({ deepLink }: { deepLink: string }) => console.log(deepLink);",
+  "const handleComplete = ({ state }: { state: string }) => console.log(state);",
   "</script>",
   "",
   "<template>",
@@ -279,6 +281,7 @@ const VUE_BUTTON_SNIPPET = [
   `    target="${EXTENSION_ID}"`,
   '    label="Install for FACEIT"',
   '    @open="handleOpen"',
+  '    @complete="handleComplete"',
   "  />",
   "</template>",
 ].join("\n");
@@ -294,6 +297,10 @@ const JAVASCRIPT_BUTTON_SNIPPET = [
   "",
   'button.addEventListener("addonport-error", (event) => {',
   "  console.error(event.detail);",
+  "});",
+  "",
+  'button.addEventListener("addonport-complete", (event) => {',
+  "  console.log(event.detail.state, event.detail.result);",
   "});",
 ].join("\n");
 
@@ -337,7 +344,6 @@ const SDK_SNIPPET = [
   'import { AddonPortClient } from "@addonport/sdk";',
   "",
   "const client = new AddonPortClient({",
-  '  apiBaseUrl: "https://your-connect-endpoint.example",',
   '  client: { name: "extension-site", version: "1.0.0" },',
   "});",
   "",
@@ -356,7 +362,7 @@ export function DeveloperPage() {
         <a href="#button-api">Button API</a>
         <a href="#events">Events and data</a>
         <a href="#protocol">Protocol</a>
-        <a href="#sessions">Session mode</a>
+        <a href="#sessions">Session lifecycle</a>
         <a href="#native">Native apps</a>
       </aside>
 
@@ -365,8 +371,8 @@ export function DeveloperPage() {
           <p className="section-label">For extension owners</p>
           <h1>Add a FACEIT install button.</h1>
           <p>
-            Use one script tag or a framework wrapper. Direct installation needs no backend, custom
-            package, or catalog listing, and the user confirms the request inside FACEIT.
+            Use one script tag or a framework wrapper. AddonPort opens FACEIT, reports the result,
+            and needs no backend, custom package, or catalog listing from the extension owner.
           </p>
         </header>
 
@@ -382,17 +388,17 @@ export function DeveloperPage() {
           <div className="inline-note positive-note">
             <ShieldCheck aria-hidden="true" />
             <p>
-              <strong>Direct mode is the default.</strong> The button opens an{" "}
-              <code>addonport://install/&lt;id&gt;</code> handoff and makes no API request.
-              AddonPort then shows the extension and asks the user to confirm.
+              <strong>Hosted sessions are the default.</strong> The button creates one short-lived
+              request, opens FACEIT, and reports confirmation or rejection to the page. The public
+              service stores no account or long-lived device identity.
             </p>
           </div>
           <div className="inline-note">
             <CircleAlert aria-hidden="true" />
             <p>
-              Keep a neutral <q>Get AddonPort</q> fallback near the button. Browser focus and
-              timeout heuristics cannot reliably detect whether a custom protocol handler is
-              installed.
+              If Connect is unavailable or no compatible client claims the session, the button emits{" "}
+              <code>addonport-error</code> and opens a direct install handoff. Set{" "}
+              <code>mode=&quot;direct&quot;</code> to always skip Connect.
             </p>
           </div>
         </section>
@@ -421,8 +427,12 @@ export function DeveloperPage() {
                 description="Optional boolean attribute that disables interaction."
               />
               <ProtocolRow
+                name="mode"
+                description='Optional. Defaults to "session"; use "direct" to skip Connect.'
+              />
+              <ProtocolRow
                 name="api-base-url"
-                description="Optional. Enables session mode against a compatible Connect endpoint."
+                description="Optional. Overrides the public Connect endpoint for session mode."
               />
             </dl>
           </div>
@@ -471,7 +481,7 @@ export function DeveloperPage() {
               />
               <ProtocolRow
                 name="addonport-error"
-                description="Returns the error raised while validating, preparing, or opening."
+                description="Returns a session or handoff error; a direct fallback may follow."
               />
             </dl>
           </div>
@@ -495,8 +505,8 @@ export function DeveloperPage() {
               <strong>
                 <code>addonport-open</code> is a handoff signal, not installation proof.
               </strong>{" "}
-              Only a completed session can report an outcome, and session results are UX signals
-              rather than authentication or device attestation.
+              Only <code>addonport-complete</code> reports completion. Session results are UX
+              signals rather than authentication or device attestation.
             </p>
           </div>
         </section>
@@ -506,7 +516,7 @@ export function DeveloperPage() {
             <span>04</span>
             <div>
               <h2>Direct protocol</h2>
-              <p>Use links directly when a custom button or framework package is unnecessary.</p>
+              <p>Use links directly when the page does not need installation status.</p>
             </div>
           </div>
           <CodeBlock label="HTML link" code={DIRECT_LINK_SNIPPET} />
@@ -530,26 +540,24 @@ export function DeveloperPage() {
           <div className="docs-section-heading">
             <span>05</span>
             <div>
-              <div className="heading-with-badge">
-                <h2>Session mode</h2>
-                <span>Preview</span>
-              </div>
-              <p>Use a session only when the page needs a result after opening the client.</p>
+              <h2>Session lifecycle</h2>
+              <p>The hosted service connects the page to one native confirmation flow.</p>
             </div>
           </div>
           <p className="docs-copy">
-            Session mode prepares a short-lived request, opens its signed handoff, and polls the
-            endpoint through created, client opened, confirmation, and terminal states.
+            The SDK prepares a five-minute request, opens its signed handoff, and polls through
+            created, client opened, confirmation, and terminal states. Claim and polling tokens are
+            separate and never belong in page URLs or analytics.
           </p>
-          <div className="inline-note warning-note">
-            <CircleAlert aria-hidden="true" />
+          <div className="inline-note positive-note">
+            <ShieldCheck aria-hidden="true" />
             <p>
-              <strong>There is no public cross-origin Connect service yet.</strong> The package is a
-              GitHub beta and is not on npm. Use your own compatible endpoint with an explicit
-              origin allowlist; do not put session tokens in page URLs or analytics.
+              <strong>The public endpoint accepts HTTPS extension sites.</strong> Session creation
+              is rate limited and no cookies, account, or persistent socket are required. Pass a
+              custom <code>api-base-url</code> only for a private deployment.
             </p>
           </div>
-          <CodeBlock label="Self-hosted session" code={SDK_SNIPPET} />
+          <CodeBlock label="Session client" code={SDK_SNIPPET} />
           <a className="text-link" href={SDK_URL} target="_blank" rel="noreferrer">
             SDK repository <ExternalLink aria-hidden="true" />
           </a>

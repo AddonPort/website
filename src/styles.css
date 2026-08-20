@@ -738,22 +738,6 @@ code {
   color: var(--text);
 }
 
-.heading-with-badge {
-  align-items: center;
-  display: flex;
-  gap: 10px;
-}
-
-.heading-with-badge > span {
-  border: 1px solid #705a33;
-  border-radius: 4px;
-  color: var(--warning);
-  font-size: 9px;
-  font-weight: 760;
-  padding: 3px 6px;
-  text-transform: uppercase;
-}
-
 .code-panel {
   background: #0e0e0f;
   border: 1px solid var(--line);

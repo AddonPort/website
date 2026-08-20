@@ -6,24 +6,23 @@ The public site is available at [addonport.dev](https://addonport.dev). The inst
 links to the mutable `dev-latest` Setup asset from the FACEIT adapter because the AddonPort v2
 integration has not yet been published as a versioned beta.
 
-For extension owners, direct `addonport://` links are the working integration and require no SDK or
-catalog listing. The optional [SDK](https://github.com/AddonPort/sdk) remains a GitHub preview and
-is not published to npm. The hosted Connect endpoint currently permits browser origins from the
-AddonPort site only, so the website must not present it as a public third-party backend.
+For extension owners, the hosted button and [SDK](https://github.com/AddonPort/sdk) use the public
+Connect endpoint to report the native confirmation lifecycle. Direct `addonport://` links remain a
+no-backend fallback. The SDK is still a GitHub beta and is not published to npm.
 
 ## Hosted install button
 
 The static export hosts the standalone install button built by the SDK repository:
 
-- `/sdk/v0.1.0-beta.2/addonport-button.js` is immutable and is the URL shown in documentation.
+- `/sdk/v0.1.0-beta.3/addonport-button.js` is immutable and is the URL shown in documentation.
 - `/sdk/v0/addonport-button.js` tracks the latest compatible `v0` beta and uses a short cache.
 
 Both files must come from the same SDK build and remain byte-identical. When updating them, update
 the documented version and SHA-384 integrity value together. The current immutable asset is built
-from SDK tag `v0.1.0-beta.2` with integrity:
+from SDK tag `v0.1.0-beta.3` with integrity:
 
 ~~~text
-sha384-zHgsfC2bd2SVPnJ9S0likQYWh5CPZTN8QMhP3VCAKgFUf4zmwc+a259uUBpk2MCx
+sha384-S44QavU5ux+H2a0FXQRmS7dCTSLCGQf0OnAPrBshmuUV8VHZBkUDEjmGHX5nJIiW
 ~~~
 
 ## Content boundaries
