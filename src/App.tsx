@@ -2,23 +2,17 @@
 
 import {
   ArrowRight,
-  Cable,
   Check,
   CircleAlert,
   Copy,
   Download,
   ExternalLink,
-  FileCheck2,
   PackageCheck,
   Power,
   Puzzle,
-  RefreshCcw,
-  RotateCcw,
   ShieldCheck,
   Terminal,
-  Wrench,
 } from "lucide-react";
-import Image from "next/image";
 import type { ReactNode } from "react";
 import { useState } from "react";
 
@@ -34,7 +28,7 @@ export function InstallPage() {
     <main>
       <section className="install-hero page">
         <div className="install-copy">
-          <p className="eyebrow">Windows public beta</p>
+          <p className="eyebrow">Unofficial Windows beta</p>
           <h1>AddonPort for FACEIT</h1>
           <p className="lede">
             Install and manage compatible Chrome extensions inside the FACEIT desktop client.
@@ -42,36 +36,32 @@ export function InstallPage() {
           <div className="hero-actions">
             <a className="button primary-button" href={DOWNLOAD_URL}>
               <Download aria-hidden="true" />
-              Download beta
+              Download for Windows
             </a>
-            <a className="button secondary-button" href="addonport://open">
-              <Power aria-hidden="true" />
-              Open in FACEIT
+            <a className="release-link" href={RELEASE_URL} target="_blank" rel="noreferrer">
+              Release notes and checksum <ExternalLink aria-hidden="true" />
             </a>
           </div>
-          <ul className="requirements" aria-label="System requirements">
-            <li>Windows 10/11 x64</li>
-            <li>Current-user install</li>
-            <li>No administrator access</li>
-          </ul>
           <p className="beta-note">
             <CircleAlert aria-hidden="true" />
             Unsigned public beta. Windows may show an unknown-publisher warning.
           </p>
         </div>
 
-        <figure className="product-preview">
-          <div className="product-preview-media">
-            <Image
-              src="/images/addonport-faceit-manager.png"
-              alt="AddonPort extension manager open beside the FACEIT right sidebar"
-              width={560}
-              height={380}
-              sizes="(max-width: 980px) calc(100vw - 64px), 560px"
-              unoptimized
+        <div className="install-scope">
+          <p className="eyebrow">Install scope</p>
+          <dl className="scope-facts">
+            <FactRow term="Platform" description="Windows 10/11 x64" />
+            <FactRow term="Target" description="Your existing FACEIT desktop client" />
+            <FactRow term="Access" description="Current Windows user; no administrator access" />
+            <FactRow term="Change" description="FACEIT's Electron app.asar package" />
+            <FactRow term="Recovery" description="Verified backup and Restore FACEIT action" />
+            <FactRow
+              term="Boundary"
+              description="Anti-Cheat and gameplay processes are not modified"
             />
-          </div>
-        </figure>
+          </dl>
+        </div>
       </section>
 
       <section className="section-band" id="install">
@@ -107,87 +97,61 @@ export function InstallPage() {
               </div>
             </li>
           </ol>
-          <div className="verification-note">
-            <FileCheck2 aria-hidden="true" />
-            <div>
-              <strong>Verify the beta before running it.</strong>
-              <span>
-                The{" "}
-                <a href={RELEASE_URL} target="_blank" rel="noreferrer">
-                  release page
-                </a>{" "}
-                includes the matching <code>.sha256</code> checksum.
-              </span>
-            </div>
-          </div>
         </div>
       </section>
 
-      <section className="page check-layout">
-        <div className="check-copy">
-          <p className="eyebrow">Already installed</p>
-          <h2>Open AddonPort from FACEIT.</h2>
+      <section className="page use-layout">
+        <div className="use-copy">
+          <p className="eyebrow">Use</p>
+          <h2>Manage extensions without leaving FACEIT.</h2>
           <p>
-            Start FACEIT and select AddonPort at the bottom of the right sidebar. The protocol
-            shortcut below opens the same interface when the adapter is installed.
+            AddonPort lives at the bottom of the right sidebar. Extension actions open beside it,
+            while full options pages use a separate window.
           </p>
-          <div className="direct-open">
-            <a className="button primary-button" href="addonport://open">
-              <Cable aria-hidden="true" />
-              Open AddonPort
-            </a>
-            <span>Your browser may ask before opening FACEIT.</span>
-          </div>
         </div>
-        <ul className="operation-list" aria-label="Setup maintenance options">
-          <OperationRow
-            icon={<RefreshCcw aria-hidden="true" />}
-            title="Update"
-            description="A newer Setup updates the adapter and preserves extensions and settings."
+        <dl className="workflow-list">
+          <FactRow
+            term="Add"
+            description="Paste a Chrome Web Store link or 32-character extension ID."
           />
-          <OperationRow
-            icon={<Wrench aria-hidden="true" />}
-            title="Repair"
-            description="The same Setup reapplies the patch when FACEIT replaced its app package."
+          <FactRow
+            term="Manage"
+            description="Open actions, enable or disable extensions, reload, configure, or remove them."
           />
-          <OperationRow
-            icon={<RotateCcw aria-hidden="true" />}
-            title="Restore FACEIT"
-            description="Restores the verified backup and removes the protocol registration."
+          <FactRow
+            term="Maintain"
+            description="Run Setup again to Update, Repair, or Restore FACEIT without deleting extension data."
           />
-        </ul>
+        </dl>
       </section>
 
       <section className="section-band support-band">
         <div className="page support-grid">
           <div>
-            <p className="eyebrow">Compatibility</p>
-            <h2>Know the beta boundary.</h2>
+            <p className="eyebrow">Current beta</p>
+            <h2>Compatibility depends on the Chrome APIs an extension uses.</h2>
             <p>
-              Verified with FACEIT 2.9.0 and Electron 43.4.0. Manifest V2 and V3 support depends on
-              the Chrome APIs each extension uses.
+              The adapter is verified with FACEIT 2.9.0 and Electron 43.4.0. Manifest V2 and V3
+              extensions are supported where the required browser APIs are available.
             </p>
           </div>
           <dl className="support-facts">
             <div>
-              <dt>Supported now</dt>
+              <dt>Works now</dt>
               <dd>
                 Content scripts, action popups, extension pages, runtime, local storage and
                 local-backed sync.
               </dd>
             </div>
             <div>
-              <dt>May not work</dt>
+              <dt>Depends on API</dt>
+              <dd>Extension features outside the compatibility layer may be unavailable.</dd>
+            </div>
+            <div>
+              <dt>Not provided</dt>
               <dd>
                 Chrome-account services, native messaging, or APIs that require a full browser
                 profile.
-              </dd>
-            </div>
-            <div>
-              <dt>Updates</dt>
-              <dd>
-                No resident service. FACEIT updates are handled while the client runs; otherwise use
-                Repair.
               </dd>
             </div>
           </dl>
@@ -200,23 +164,12 @@ export function InstallPage() {
   );
 }
 
-function OperationRow({
-  icon,
-  title,
-  description,
-}: {
-  icon: ReactNode;
-  title: string;
-  description: string;
-}) {
+function FactRow({ term, description }: { term: string; description: string }) {
   return (
-    <li className="operation-row">
-      <span className="operation-icon">{icon}</span>
-      <div>
-        <h3>{title}</h3>
-        <p>{description}</p>
-      </div>
-    </li>
+    <div>
+      <dt>{term}</dt>
+      <dd>{description}</dd>
+    </div>
   );
 }
 
