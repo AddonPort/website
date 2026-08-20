@@ -42,7 +42,8 @@ export function InstallPage() {
             </a>
           </div>
           <p className="download-meta">
-            Windows 10/11 x64 | Official FACEIT desktop client required | No administrator access
+            Windows 10/11 x64 | Official FACEIT desktop client required | No administrator rights
+            required
           </p>
           <div className="build-note">
             <CircleAlert aria-hidden="true" />
