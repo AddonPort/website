@@ -156,10 +156,10 @@ export function InstallPage() {
         <div className="page support-grid">
           <div>
             <p className="eyebrow">Compatibility</p>
-            <h2>Installable does not mean fully compatible.</h2>
+            <h2>Compatibility depends on the Chrome APIs an extension uses.</h2>
             <p>
-              AddonPort is verified with FACEIT 2.9.0 and Electron 43.4.0. Manifest V2 and V3
-              behavior still depends on the Chrome APIs each extension uses.
+              AddonPort is verified with FACEIT 2.9.0 and Electron 43.4.0, with support for both
+              Manifest V2 and V3 extensions.
             </p>
           </div>
           <dl className="support-facts">
