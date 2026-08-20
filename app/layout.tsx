@@ -15,13 +15,13 @@ export const metadata: Metadata = {
     siteName: "AddonPort",
     title: "AddonPort for FACEIT",
     description: "Add, launch, and manage compatible Chrome extensions inside the FACEIT client.",
-    images: [{ url: "/images/addonport-banner.png", width: 1983, height: 793 }],
+    images: [{ url: "/images/addonport-hero.png", width: 384, height: 384 }],
   },
   twitter: {
-    card: "summary_large_image",
+    card: "summary",
     title: "AddonPort for FACEIT",
     description: "Add, launch, and manage compatible Chrome extensions inside the FACEIT client.",
-    images: ["/images/addonport-banner.png"],
+    images: ["/images/addonport-hero.png"],
   },
 };
 

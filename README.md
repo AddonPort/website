@@ -11,6 +11,13 @@ catalog listing. The optional [SDK](https://github.com/AddonPort/sdk) remains a 
 is not published to npm. The hosted Connect endpoint currently permits browser origins from the
 AddonPort site only, so the website must not present it as a public third-party backend.
 
+## Content boundaries
+
+The download page leads with the AddonPort workflow, keeps development-build warnings next to the
+download, and moves implementation and recovery details below day-to-day usage. Extension names
+may appear as factual compatibility references. Do not use third-party logos, ratings, or audience
+figures as product marketing without permission.
+
 ## Development
 
 ~~~bash

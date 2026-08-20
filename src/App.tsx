@@ -3,16 +3,19 @@
 import {
   ArrowRight,
   Check,
+  ChevronRight,
   CircleAlert,
   Copy,
   Download,
   ExternalLink,
-  PackageCheck,
-  Puzzle,
+  Settings2,
   ShieldCheck,
+  Store,
   Terminal,
+  Zap,
 } from "lucide-react";
-import { useState } from "react";
+import Image from "next/image";
+import { type ReactNode, useState } from "react";
 
 const RELEASE_URL = "https://github.com/AddonPort/faceit/releases/tag/dev-latest";
 const DOWNLOAD_URL =
@@ -24,214 +27,208 @@ const SDK_URL = "https://github.com/AddonPort/sdk";
 export function InstallPage() {
   return (
     <main>
-      <section className="install-hero page">
-        <div className="install-copy">
-          <p className="eyebrow">Windows development preview</p>
-          <h1>AddonPort for FACEIT</h1>
-          <p className="lede">
-            Add compatible Chrome extensions to the FACEIT desktop client, then launch and manage
-            them from its right sidebar.
-          </p>
-          <div className="hero-actions">
-            <a className="button primary-button" href={DOWNLOAD_URL}>
-              <Download aria-hidden="true" />
-              Download Setup
-            </a>
-            <a className="release-link" href={RELEASE_URL} target="_blank" rel="noreferrer">
-              Release notes and checksum <ExternalLink aria-hidden="true" />
-            </a>
-          </div>
-          <p className="download-meta">
-            Windows 10/11 x64 | Official FACEIT desktop client required | No administrator rights
-            required
-          </p>
-          <div className="build-note">
-            <CircleAlert aria-hidden="true" />
-            <p>
-              <strong>Current download: mutable development build.</strong>
-              <span>
-                It is unsigned, so Windows may show an unknown-publisher warning. Verify the SHA-256
-                checksum before running it.
-              </span>
+      <section className="product-hero">
+        <Image
+          className="hero-mark"
+          src="/images/addonport-hero.png"
+          alt=""
+          width="384"
+          height="384"
+          priority
+        />
+        <div className="page hero-grid">
+          <div className="hero-copy">
+            <div className="release-state">
+              <span aria-hidden="true" /> Windows development preview
+            </div>
+            <h1>Chrome extensions for FACEIT.</h1>
+            <p className="hero-lede">
+              AddonPort adds a compact extension manager to the FACEIT desktop client. Install,
+              open, configure, and remove extensions without switching apps.
+            </p>
+            <div className="hero-actions">
+              <a className="button primary-button" href={DOWNLOAD_URL}>
+                <Download aria-hidden="true" />
+                Download Setup
+              </a>
+              <a className="release-link" href={RELEASE_URL} target="_blank" rel="noreferrer">
+                Release details <ExternalLink aria-hidden="true" />
+              </a>
+            </div>
+            <ul className="requirements" aria-label="System requirements">
+              <li>Windows 10/11 x64</li>
+              <li>Official FACEIT client</li>
+              <li>No admin rights required</li>
+            </ul>
+            <p className="preview-note">
+              <CircleAlert aria-hidden="true" />
+              The current build is unsigned. Windows may show an unknown-publisher warning; the
+              release page includes its SHA-256 checksum.
             </p>
           </div>
-        </div>
-
-        <div className="hero-summary">
-          <p className="eyebrow">Inside FACEIT</p>
-          <dl className="hero-facts">
-            <FactRow
-              term="Browse"
-              description="Start with catalog entries that include compatibility metadata."
-            />
-            <FactRow
-              term="Add"
-              description="Paste any valid Chrome Web Store URL or 32-character extension ID."
-            />
-            <FactRow
-              term="Control"
-              description="Launch actions, enable, reload, configure, create shortcuts, or remove."
-            />
-          </dl>
         </div>
       </section>
 
-      <section className="section-band" id="inside-faceit">
-        <div className="page section-layout">
-          <header className="section-heading">
-            <p className="eyebrow">Use</p>
-            <h2>The extension lifecycle stays in one manager.</h2>
-            <p>
-              Open AddonPort at the bottom of FACEIT's right sidebar. It shows the adapter version
-              and the state of every installed extension.
-            </p>
+      <section className="use-band" id="use">
+        <div className="page">
+          <header className="use-heading">
+            <p>Inside FACEIT</p>
+            <h2>One place to run and manage extensions.</h2>
+            <span>
+              AddonPort sits at the bottom of FACEIT&apos;s right sidebar, next to extension
+              actions.
+            </span>
           </header>
-          <div>
-            <dl className="workflow-list">
-              <FactRow
-                term="Extensions"
-                description="Open actions and options, enable or disable, reload, create a desktop shortcut, or remove."
-              />
-              <FactRow
-                term="Add"
-                description="Browse the bundled catalog or install manually from the Chrome Web Store."
-              />
-              <FactRow
-                term="Settings"
-                description="Copy diagnostics, open the data folder, manage shortcuts, or load an unpacked folder for development."
-              />
-            </dl>
-            <p className="section-note">
-              Action popups stay inside the FACEIT window. Full options pages open separately, and
-              some content-script changes require a FACEIT page reload.
-            </p>
+          <div className="capability-grid">
+            <Capability
+              icon={<Store aria-hidden="true" />}
+              title="Add"
+              description="Browse catalog metadata or paste a Chrome Web Store link or ID."
+            />
+            <Capability
+              icon={<Zap aria-hidden="true" />}
+              title="Use"
+              description="Open extension actions and popups without leaving the FACEIT window."
+            />
+            <Capability
+              icon={<Settings2 aria-hidden="true" />}
+              title="Control"
+              description="Configure, enable, reload, create shortcuts, or remove an extension."
+            />
+          </div>
+          <p className="use-footnote">
+            Full options pages open separately. Content-script changes may require a FACEIT page
+            reload.
+          </p>
+          <div className="compatibility-strip">
+            <span>Catalog compatibility</span>
+            <div>
+              <p>
+                Repeek <strong className="tested">Tested</strong>
+              </p>
+              <p>
+                FACEIT Forecast <strong className="tested">Tested</strong>
+              </p>
+              <p>
+                PeekStats <strong className="experimental">Experimental</strong>
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="page install-layout" id="install">
-        <header className="section-heading">
-          <p className="eyebrow">Install</p>
-          <h2>Patch the FACEIT client you already use.</h2>
-          <p>
-            Setup does not install a second client, and AddonPort has no separate account or login.
-            Once it finishes, launch FACEIT normally.
-          </p>
-        </header>
-        <div>
-          <ol className="step-list">
-            <li>
-              <span className="step-number">1</span>
-              <div>
-                <h3>Prepare FACEIT</h3>
-                <p>Install the official desktop client for this Windows account, then close it.</p>
-              </div>
-            </li>
-            <li>
-              <span className="step-number">2</span>
-              <div>
-                <h3>Run Setup</h3>
-                <p>
-                  Open <code>AddonPort-for-FACEIT-Setup-x64.exe</code> and select{" "}
-                  <strong>Install</strong>.
-                </p>
-              </div>
-            </li>
-            <li>
-              <span className="step-number">3</span>
-              <div>
-                <h3>Open AddonPort</h3>
-                <p>Start FACEIT and select AddonPort at the bottom of its right sidebar.</p>
-              </div>
-            </li>
-          </ol>
-          <p className="section-note">
-            A newer Setup offers <strong>Update</strong>; the same version offers{" "}
-            <strong>Repair</strong>. Both preserve installed extensions and settings.
-          </p>
-        </div>
-      </section>
-
-      <section className="section-band support-band">
-        <div className="page support-grid">
+      <section className="page install-section" id="install">
+        <header className="split-heading">
           <div>
-            <p className="eyebrow">Compatibility</p>
-            <h2>Compatibility depends on the Chrome APIs an extension uses.</h2>
-            <p>
-              AddonPort is verified with FACEIT 2.9.0 and Electron 43.4.0, with support for both
-              Manifest V2 and V3 extensions.
-            </p>
+            <p className="section-label">Setup</p>
+            <h2>Install once. Keep using FACEIT normally.</h2>
           </div>
-          <dl className="support-facts">
-            <FactRow
-              term="Catalog"
-              description="Repeek and FACEIT Forecast are marked tested; PeekStats is experimental."
-            />
-            <FactRow
-              term="Manual"
-              description="Any valid Web Store ID can be installed, but entries outside the catalog are not reviewed."
-            />
-            <FactRow
-              term="Supported"
-              description="Content scripts, action popups, extension pages, runtime, local storage, and local-backed sync."
-            />
-            <FactRow
-              term="Unavailable"
-              description="Chrome-account services, native messaging, and APIs that require a full browser profile."
-            />
-          </dl>
-          <a className="text-link" href={ISSUE_URL} target="_blank" rel="noreferrer">
-            Report an extension issue <ArrowRight aria-hidden="true" />
-          </a>
-        </div>
-      </section>
-
-      <section className="page trust-layout">
-        <header className="section-heading">
-          <p className="eyebrow">Scope and recovery</p>
-          <h2>Know what changes and how to undo it.</h2>
           <p>
-            AddonPort modifies FACEIT's Electron web-client package only. It does not touch
-            Anti-Cheat, drivers, gameplay processes, the native overlay, or enforcement systems.
+            Setup patches the client already installed for your Windows account. It does not add a
+            second FACEIT client or a separate AddonPort login.
           </p>
         </header>
-        <dl className="trust-facts">
-          <FactRow
-            term="Packages"
-            description="Managed extension packages download only from the Chrome Web Store; local folders are development-only."
+        <ol className="install-steps">
+          <InstallStep
+            number="01"
+            title="Close FACEIT"
+            description="Make sure the official desktop client is installed, then close it."
           />
-          <FactRow
-            term="Access"
-            description="Loaded extensions receive host access only for supported FACEIT origins."
+          <InstallStep
+            number="02"
+            title="Run Setup"
+            description="Open the downloaded file and select Install."
           />
-          <FactRow
-            term="Backup"
-            description="Setup records a SHA-256 hash and keeps the original app.asar before its first write."
+          <InstallStep
+            number="03"
+            title="Open AddonPort"
+            description="Launch FACEIT and use AddonPort from the bottom of its right sidebar."
           />
-          <FactRow
-            term="Updates"
-            description="Updates downloaded while FACEIT runs are patched before restart; otherwise run Repair."
-          />
-          <FactRow
-            term="Restore"
-            description="Restore FACEIT verifies the backup, removes AddonPort integration, and keeps extension data."
-          />
-          <FactRow
-            term="Background"
-            description="No resident service, watcher, or launcher runs while FACEIT is closed."
-          />
-        </dl>
+        </ol>
+        <p className="install-aftercare">
+          Running a newer Setup updates the integration. Running the same version repairs it. Both
+          keep installed extensions and settings.
+        </p>
+      </section>
+
+      <section className="answers-band">
+        <div className="page answers-layout">
+          <header>
+            <p className="section-label">Before installing</p>
+            <h2>The details that matter.</h2>
+            <p>Compatibility, client updates, recovery, and removal.</p>
+            <a className="text-link" href={ISSUE_URL} target="_blank" rel="noreferrer">
+              Report an extension issue <ArrowRight aria-hidden="true" />
+            </a>
+          </header>
+          <div className="answer-list">
+            <Answer
+              question="Which extensions work?"
+              answer="AddonPort supports Manifest V2 and V3 content scripts, action popups, extension pages, runtime messaging, local storage, and local-backed sync. Chrome-account services, native messaging, and APIs that require a full browser profile are unavailable. Catalog statuses reflect AddonPort's own testing of independent extensions; they do not imply endorsement or partnership. Manual Web Store entries are not catalog-reviewed."
+            />
+            <Answer
+              question="What does Setup change?"
+              answer="Only FACEIT's Electron web-client package. Setup records its SHA-256 hash and keeps the original app.asar before the first write. It does not touch Anti-Cheat, drivers, gameplay processes, the native overlay, or enforcement systems."
+            />
+            <Answer
+              question="What happens after a FACEIT update?"
+              answer="An update downloaded while FACEIT is running is patched before restart. If FACEIT updates while AddonPort is not active, run Repair from Setup."
+            />
+            <Answer
+              question="Can I remove AddonPort?"
+              answer="Yes. Restore FACEIT verifies the backup and removes the integration while keeping extension data. No AddonPort service, watcher, or launcher remains active while FACEIT is closed."
+            />
+          </div>
+        </div>
       </section>
     </main>
   );
 }
 
-function FactRow({ term, description }: { term: string; description: string }) {
+function Capability({
+  icon,
+  title,
+  description,
+}: {
+  icon: ReactNode;
+  title: string;
+  description: string;
+}) {
   return (
-    <div>
-      <dt>{term}</dt>
-      <dd>{description}</dd>
-    </div>
+    <article className="capability">
+      {icon}
+      <h3>{title}</h3>
+      <p>{description}</p>
+    </article>
+  );
+}
+
+function InstallStep({
+  number,
+  title,
+  description,
+}: {
+  number: string;
+  title: string;
+  description: string;
+}) {
+  return (
+    <li>
+      <span>{number}</span>
+      <h3>{title}</h3>
+      <p>{description}</p>
+    </li>
+  );
+}
+
+function Answer({ question, answer }: { question: string; answer: string }) {
+  return (
+    <details>
+      <summary>
+        {question} <ChevronRight aria-hidden="true" />
+      </summary>
+      <p>{answer}</p>
+    </details>
   );
 }
 
@@ -240,7 +237,7 @@ const DIRECT_LINK_SNIPPET = [
   `<a href="addonport://install/${EXTENSION_ID}">`,
   "  Install for FACEIT with AddonPort",
   "</a>",
-  '<p>Didn\'t open? <a href="https://addonport.dev/">Install AddonPort</a></p>',
+  '<p>Didn\'t open? <a href="https://addonport.dev/">Get AddonPort</a></p>',
 ].join("\n");
 
 const SDK_SNIPPET = [
@@ -259,124 +256,119 @@ const SDK_SNIPPET = [
 
 export function DeveloperPage() {
   return (
-    <main className="developer-page">
-      <section className="page developer-intro">
-        <div>
-          <p className="eyebrow">For extension owners</p>
-          <h1>Give users a direct FACEIT install.</h1>
-          <p className="lede">
-            AddonPort accepts any valid Chrome Web Store extension ID. A catalog listing, custom
-            package, backend, or SDK is not required for a basic install link. No public
-            self-service catalog submission is available yet.
-          </p>
-        </div>
-        <div className="developer-principles">
-          <span>
-            <ShieldCheck aria-hidden="true" /> Confirmation before every install
-          </span>
-          <span>
-            <PackageCheck aria-hidden="true" /> Chrome Web Store packages only
-          </span>
-          <span>
-            <Puzzle aria-hidden="true" /> Catalog metadata is optional
-          </span>
-        </div>
-      </section>
+    <main className="page docs-layout">
+      <aside className="docs-nav" aria-label="Developer page sections">
+        <span>Integration</span>
+        <a href="#install-link">Install link</a>
+        <a href="#actions">Actions</a>
+        <a href="#sdk">SDK preview</a>
+        <a href="#native">Native apps</a>
+      </aside>
 
-      <section className="section-band">
-        <div className="page sdk-layout">
-          <header className="section-heading sdk-heading">
-            <p className="eyebrow">Available now</p>
-            <h2>Use one direct link and keep the fallback visible.</h2>
-            <p>
-              Replace the example target with your 32-character extension ID. Open the link only
-              after a user action; browsers may show their own protocol confirmation.
-            </p>
-          </header>
-          <div className="package-notice positive-notice">
-            <ShieldCheck aria-hidden="true" />
+      <article className="docs-content">
+        <header className="docs-hero">
+          <p className="section-label">For extension owners</p>
+          <h1>Add a FACEIT install link.</h1>
+          <p>
+            Point AddonPort at any valid Chrome Web Store extension ID. A basic install needs no
+            backend, SDK, custom package, or catalog listing, and the user confirms it inside
+            FACEIT.
+          </p>
+        </header>
+
+        <section className="docs-section" id="install-link">
+          <div className="docs-section-heading">
+            <span>01</span>
             <div>
-              <strong>The user reviews the request inside FACEIT before download.</strong>
-              <span>
-                Direct Web Store IDs are marked as not catalog-reviewed, and the link cannot change
-                the package source, permissions, or files.
-              </span>
+              <h2>Install link</h2>
+              <p>Replace the example ID and open the link only after a user action.</p>
             </div>
           </div>
           <CodeBlock label="HTML" code={DIRECT_LINK_SNIPPET} />
-          <ul className="package-list" aria-label="Supported FACEIT actions">
-            <PackageRow
+          <div className="inline-note positive-note">
+            <ShieldCheck aria-hidden="true" />
+            <p>
+              <strong>The user reviews the request before download.</strong> Direct Web Store IDs
+              are marked as not catalog-reviewed. The link cannot change package source,
+              permissions, or files.
+            </p>
+          </div>
+          <div className="inline-note">
+            <CircleAlert aria-hidden="true" />
+            <p>
+              Browser focus and timeout heuristics cannot prove AddonPort is installed. Keep a
+              neutral <q>Didn&apos;t open?</q> fallback instead of claiming detection.
+            </p>
+          </div>
+        </section>
+
+        <section className="docs-section" id="actions">
+          <div className="docs-section-heading">
+            <span>02</span>
+            <div>
+              <h2>Supported actions</h2>
+              <p>The protocol is versioned; installation always requires confirmation.</p>
+            </div>
+          </div>
+          <dl className="protocol-table">
+            <ProtocolRow
               name="addonport://install/<id>"
               description="Review and install a catalog ID or Chrome extension ID"
             />
-            <PackageRow
+            <ProtocolRow
               name="addonport://launch/<id>"
               description="Open an installed extension action"
             />
-            <PackageRow name="addonport://open" description="Open the in-client manager" />
-          </ul>
-          <p className="section-note">
-            Browser focus and timeout heuristics cannot prove that AddonPort is installed. A
-            fallback may say "Didn't open?", but must not claim detection.
-          </p>
-          <a className="text-link protocol-doc-link" href={INTEGRATION_URL}>
-            Read the complete integration contract <ExternalLink aria-hidden="true" />
+            <ProtocolRow name="addonport://open" description="Open the in-client manager" />
+          </dl>
+          <a className="text-link" href={INTEGRATION_URL} target="_blank" rel="noreferrer">
+            Complete integration contract <ExternalLink aria-hidden="true" />
           </a>
-        </div>
-      </section>
+        </section>
 
-      <section className="page sdk-preview-layout">
-        <header className="section-heading sdk-heading">
-          <p className="eyebrow">SDK preview</p>
-          <h2>Use a session only when the page needs an outcome.</h2>
-          <p>
-            The SDK can report client opened, confirmation pending, completed, rejected, failed, or
-            expired. These states improve UX; they are not authentication or device attestation.
-          </p>
-        </header>
-        <div>
-          <div className="package-notice">
-            <CircleAlert aria-hidden="true" />
+        <section className="docs-section" id="sdk">
+          <div className="docs-section-heading">
+            <span>03</span>
             <div>
-              <strong>This path is not a public third-party service yet.</strong>
-              <span>
-                The SDK is a GitHub beta, is not published to npm, and the hosted Connect endpoint
-                currently accepts browser origins from AddonPort's own site only. Use direct links
-                or deploy Connect with an explicit origin allowlist.
-              </span>
+              <div className="heading-with-badge">
+                <h2>SDK</h2>
+                <span>Preview</span>
+              </div>
+              <p>Use a session only when the page needs an outcome after opening the client.</p>
             </div>
           </div>
-          <CodeBlock label="Self-hosted session preview" code={SDK_SNIPPET} />
-          <ul className="package-list" aria-label="SDK entry points">
-            <PackageRow name="@addonport/sdk" description="Framework-neutral session client" />
-            <PackageRow
-              name="@addonport/sdk/protocol"
-              description="Versioned intents, states, validation, and deep links"
-            />
-            <PackageRow name="@addonport/sdk/elements" description="Drop-in custom element" />
-            <PackageRow name="@addonport/sdk/react" description="React wrapper" />
-            <PackageRow name="@addonport/sdk/vue" description="Vue 3 wrapper" />
-          </ul>
-          <a
-            className="text-link protocol-doc-link"
-            href={SDK_URL}
-            target="_blank"
-            rel="noreferrer"
-          >
-            Open the SDK repository <ExternalLink aria-hidden="true" />
-          </a>
-        </div>
-      </section>
-
-      <section className="section-band">
-        <div className="page native-layout">
-          <div className="section-heading">
-            <p className="eyebrow">Native Windows apps</p>
-            <h2>Read the current-user registry key.</h2>
+          <p className="docs-copy">
+            The SDK models opened, pending, completed, rejected, failed, and expired states. These
+            improve UX; they are not authentication or device attestation.
+          </p>
+          <div className="inline-note warning-note">
+            <CircleAlert aria-hidden="true" />
             <p>
-              Native apps can check the installed loader version without launching FACEIT. Compare
-              ProtocolVersion before relying on newer link actions.
+              <strong>Not a public hosted service yet.</strong> The package is a GitHub beta, is not
+              on npm, and AddonPort&apos;s hosted Connect endpoint currently accepts only AddonPort
+              origins. Use a direct link or self-host Connect with an explicit origin allowlist.
             </p>
+          </div>
+          <CodeBlock label="Self-hosted session" code={SDK_SNIPPET} />
+          <dl className="package-table">
+            <ProtocolRow name="@addonport/sdk" description="Framework-neutral session client" />
+            <ProtocolRow name="@addonport/sdk/protocol" description="Intents and deep links" />
+            <ProtocolRow name="@addonport/sdk/elements" description="Custom element" />
+            <ProtocolRow name="@addonport/sdk/react" description="React wrapper" />
+            <ProtocolRow name="@addonport/sdk/vue" description="Vue 3 wrapper" />
+          </dl>
+          <a className="text-link" href={SDK_URL} target="_blank" rel="noreferrer">
+            SDK repository <ExternalLink aria-hidden="true" />
+          </a>
+        </section>
+
+        <section className="docs-section" id="native">
+          <div className="docs-section-heading">
+            <span>04</span>
+            <div>
+              <h2>Native Windows apps</h2>
+              <p>Read the current-user registry key without launching FACEIT.</p>
+            </div>
           </div>
           <CodeBlock
             label="Windows Registry"
@@ -388,25 +380,29 @@ export function DeveloperPage() {
               "  ProtocolVersion   REG_SZ  2",
             ].join("\n")}
           />
-          <div className="trust-note">
-            <CircleAlert aria-hidden="true" />
-            <p>
-              This registry contract is for native Windows applications. Browser pages cannot read
-              it and should use a direct link until the hosted SDK path is opened to third parties.
-            </p>
-          </div>
-        </div>
-      </section>
+          <p className="docs-copy">
+            Compare <code>ProtocolVersion</code> before relying on newer link actions. Browser pages
+            cannot read this key and should use the direct-link fallback.
+          </p>
+        </section>
+
+        <p className="catalog-policy">
+          There is no public self-service catalog submission yet. Catalog metadata is optional for
+          direct installation.
+        </p>
+      </article>
     </main>
   );
 }
 
-function PackageRow({ name, description }: { name: string; description: string }) {
+function ProtocolRow({ name, description }: { name: string; description: string }) {
   return (
-    <li className="package-row">
-      <code>{name}</code>
-      <span>{description}</span>
-    </li>
+    <div>
+      <dt>
+        <code>{name}</code>
+      </dt>
+      <dd>{description}</dd>
+    </div>
   );
 }
 

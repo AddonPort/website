@@ -9,4 +9,5 @@ pnpm install
 pnpm check
 ~~~
 
-Do not commit credentials, local environment files, or third-party extension packages.
+Do not commit credentials, local environment files, third-party extension packages, or third-party
+brand assets without permission.

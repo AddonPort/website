@@ -1,6 +1,7 @@
 "use client";
 
-import { Cable, ExternalLink } from "lucide-react";
+import { ExternalLink } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -11,15 +12,19 @@ export function Header() {
   return (
     <header className="topbar">
       <Link className="brand" href="/" aria-label="AddonPort home">
-        <span className="brand-mark">
-          <Cable aria-hidden="true" />
-        </span>
+        <Image
+          className="brand-mark"
+          src="/images/addonport-mark.png"
+          alt=""
+          width="32"
+          height="32"
+        />
         <span>AddonPort</span>
         <span className="brand-context">for FACEIT</span>
       </Link>
       <nav className="main-nav" aria-label="Main navigation">
         <Link className={pathname === "/" || pathname === "/install" ? "active" : ""} href="/">
-          Install
+          Download
         </Link>
         <Link className={pathname === "/developers" ? "active" : ""} href="/developers/">
           Developers
@@ -52,7 +57,7 @@ export function Footer() {
     <footer className="footer">
       <div>
         <span className="footer-brand">
-          <Cable aria-hidden="true" /> AddonPort
+          <Image src="/images/addonport-mark.png" alt="" width="22" height="22" /> AddonPort
         </span>
         <span>FACEIT adapter: GPL-3.0. SDK and protocol: MIT.</span>
       </div>
