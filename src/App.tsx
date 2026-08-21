@@ -432,7 +432,7 @@ export function DeveloperPage() {
               />
               <ProtocolRow
                 name="api-base-url"
-                description="Optional. Overrides the public Connect endpoint for session mode."
+                description="Advanced. Browser-side override for an adapter deployment pinned to the same origin."
               />
             </dl>
           </div>
@@ -553,8 +553,10 @@ export function DeveloperPage() {
             <ShieldCheck aria-hidden="true" />
             <p>
               <strong>The public endpoint accepts HTTPS extension sites.</strong> Session creation
-              is rate limited and no cookies, account, or persistent socket are required. Pass a
-              custom <code>api-base-url</code> only for a private deployment.
+              is rate limited and no cookies, account, or persistent socket are required. A custom{" "}
+              <code>api-base-url</code> works only when the native adapter is independently pinned
+              to that same private origin. The public FACEIT adapter does not accept arbitrary
+              service origins from websites.
             </p>
           </div>
           <CodeBlock label="Session client" code={SDK_SNIPPET} />

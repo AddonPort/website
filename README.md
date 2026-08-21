@@ -8,7 +8,7 @@ integration has not yet been published as a versioned beta.
 
 For extension owners, the hosted button and [SDK](https://github.com/AddonPort/sdk) use the public
 Connect endpoint to report the native confirmation lifecycle. Direct `addonport://` links remain a
-no-backend fallback. The SDK is still a GitHub beta and is not published to npm.
+no-backend fallback. The public SDK beta is available as `@addonport/sdk` on npm.
 
 ## Hosted install button
 
