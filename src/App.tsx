@@ -252,7 +252,7 @@ const HTML_BUTTON_SNIPPET = [
 ].join("\n");
 
 const REACT_BUTTON_SNIPPET = [
-  `// npm install github:AddonPort/sdk#v${SDK_VERSION}`,
+  "// npm install @addonport/sdk@beta",
   'import { AddonPortInstallButton } from "@addonport/sdk/react";',
   "",
   "export function FaceitInstall() {",
@@ -268,7 +268,7 @@ const REACT_BUTTON_SNIPPET = [
 ].join("\n");
 
 const VUE_BUTTON_SNIPPET = [
-  `<!-- npm install github:AddonPort/sdk#v${SDK_VERSION} -->`,
+  "<!-- npm install @addonport/sdk@beta -->",
   '<script setup lang="ts">',
   'import { AddonPortInstallButton } from "@addonport/sdk/vue";',
   "",
