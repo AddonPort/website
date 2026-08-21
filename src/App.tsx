@@ -65,6 +65,24 @@ export function InstallPage() {
               The current build is unsigned. Windows may show an unknown-publisher warning; the
               release page includes its SHA-256 checksum.
             </p>
+            <p className="signing-note">
+              <a
+                href="https://github.com/AddonPort/faceit/blob/main/docs/CODE_SIGNING_POLICY.md"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Code signing policy
+              </a>
+              . Free code signing provided by{" "}
+              <a href="https://about.signpath.io" target="_blank" rel="noreferrer">
+                SignPath.io
+              </a>
+              , certificate by{" "}
+              <a href="https://signpath.org" target="_blank" rel="noreferrer">
+                SignPath Foundation
+              </a>
+              .
+            </p>
           </div>
         </div>
       </section>

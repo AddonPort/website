@@ -357,6 +357,22 @@ code {
   width: 15px;
 }
 
+.signing-note {
+  color: var(--subtle);
+  font-size: 11px;
+  line-height: 1.55;
+  margin: 8px 0 0 23px;
+  max-width: 580px;
+}
+
+.signing-note a {
+  color: var(--muted);
+}
+
+.signing-note a:hover {
+  color: var(--text);
+}
+
 .use-band {
   background: var(--light);
   color: var(--light-text);
